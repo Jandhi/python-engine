@@ -1,0 +1,26 @@
+{
+    "npc": {
+        "0": {
+            "type": "special_npc",
+            "name": "jan",
+            "bonds": [
+                "-> type : special_npc, id : 1",
+                "-> type : favourite_npc"
+            ]
+        },
+        "1": {
+            "type": "special_npc",
+            "name": "nicole",
+            "bonds": [
+                "-> type : special_npc, id : 0"
+            ]
+        }
+    },
+    "favourite_npc": {
+        "type": "favourite_npc",
+        "name": "favourite",
+        "bonds": [
+            "-> type : special_npc, id : 0"
+        ]
+    }
+}
