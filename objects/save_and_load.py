@@ -1,5 +1,5 @@
 import json
-from objects.game_object import get_object_types, get_object_pool, squash_ids
+from objects.game_object import add_static_objects, get_object_types, get_object_pool, remove_static_objects, squash_ids
 from objects.construction import construct
 from objects.linking import link_objects
 from objects.serialization import serialize
@@ -8,8 +8,12 @@ def save_file(file_name):
     pool = get_object_pool()
     types = list(pool.keys())
 
+    remove_static_objects()
+
     for type in types:
-        if get_object_types()[type].Schema.is_singleton:
+        schema = get_object_types()[type].Schema
+
+        if schema.is_singleton or schema.is_static or not schema.numeric_id:
             continue
 
         squash_ids(type)
@@ -30,5 +34,7 @@ def load_file(file_name):
             for id, obj_data in objects.items():
                 obj_data['id'] = id
                 construct(obj_data)
+
+    add_static_objects()
     
     link_objects()

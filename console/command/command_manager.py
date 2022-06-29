@@ -1,7 +1,6 @@
 from console.command.command import Command
 from console.error import cerror, print_error
 
-
 class CommandManager:
     def __init__(self, commands) -> None:
         self.commands : list[Command] = commands

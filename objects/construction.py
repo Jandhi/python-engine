@@ -1,5 +1,10 @@
 from objects.game_object import get_object_class, GameObject
 
+__constructors = {}
+
+def add_constructor(name, constructor):
+    __constructors[name] = constructor
+
 def construct(data):
     # string
     if isinstance(data, str):
@@ -25,16 +30,29 @@ def construct(data):
 
     if 'type' in data:
         cls = get_object_class(data['type'])
-        obj = cls.__new__(cls)
-
-        for name, value in data.items():
-            if name in cls.Schema.do_not_load:
-                continue
-
-            obj.__dict__[name] = construct(value)
-
-        GameObject.__init__(obj)
-        return obj
+        
+        if cls is not None:
+            return construct_game_object(cls, data)
+        
+        if data['type'] in __constructors:
+            return __constructors[data['type']](data)
     
     # dict
     return {construct(key) : construct(value) for key, value in data.items()}
+
+def construct_game_object(cls, data):
+    schema : GameObject.Schema = cls.Schema
+    obj = cls.__new__(cls)
+
+    for name, value in data.items():
+        if name in schema.do_not_load:
+            continue
+
+        if name in schema.class_fields:
+            setattr(cls, name, construct(value))
+            continue
+
+        setattr(obj, name, construct(value))
+
+    GameObject.__init__(obj)
+    return obj

@@ -1,7 +1,6 @@
-from console.colored_object import color
+from console.colored_string import color
 from console.console import cprint
-
-ERROR_COLOR = 'red'
+from console.palette import Palette
 
 def cerror(*args):
-    cprint(color("ERROR:", ERROR_COLOR), ' ', *args)
+    cprint(color("ERROR:", Palette.ERROR_COLOR), ' ', *args)

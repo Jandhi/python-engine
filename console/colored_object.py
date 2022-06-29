@@ -19,7 +19,3 @@ class ColoredObject:
     
     def __str__(self) -> str:
         return f'{fg(self.__get_color()) if self.color else ""}{self.__get_name()}{attr(0)}'
-
-def color(str, color) -> ColoredObject:
-    c = ColoredObject(str, color)
-    return c 

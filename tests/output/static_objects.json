@@ -1,0 +1,9 @@
+{
+    "non_static": {
+        "test2": {
+            "type": "non_static",
+            "name": "test2",
+            "pointer": "-> type : static, id : test"
+        }
+    }
+}

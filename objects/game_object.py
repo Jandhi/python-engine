@@ -1,4 +1,5 @@
 import re
+from typing import Callable
 from console.colored_object import ColoredObject
 
 from objects.serialization import serialize_field
@@ -7,7 +8,9 @@ camel_to_snake = re.compile(r'(?<!^)(?=[A-Z])')
 
 __id_counter = {}
 __object_pool : dict[str, dict[id,]] = {}
+__static_pool : dict[str, dict[id,]] = {}
 __object_types = {}
+__static_types = {}
 __deletion_pool = []
 
 LINK_STRING = '-> '
@@ -43,6 +46,9 @@ def initialize_type(type):
 
     if not __object_types[type].Schema.is_singleton:
         __id_counter[type] = 0
+    
+    if __object_types[type].Schema.is_static:
+        __static_pool[type] = __object_pool[type]
 
 def squash_ids(type):
     objects = list(__object_pool[type].values())
@@ -86,6 +92,8 @@ def get_base_type(type):
 def find_object(type_name, id = None):
     if isinstance(type_name, type):
         type_name = type_name.type
+    else:
+        type_name = type_name.lower()
 
     if type_name in __object_types and __object_types[type_name].Schema.is_singleton:
         return __object_pool[type_name]
@@ -111,6 +119,17 @@ def get_objects(type):
 def add_type(cls):
     __object_types[cls.type] = cls
 
+def add_static_type(cls):
+    __static_types[cls.type] = cls
+
+def remove_static_objects():
+    for type in __static_pool:
+        __object_pool.pop(type)
+
+def add_static_objects():
+    for type, objects in __static_pool.items():
+        __object_pool[type] = objects
+
 def get_object_class(type):
     if type not in __object_types:
         return None
@@ -129,6 +148,13 @@ class GameObjectMeta(type):
 
         add_type(class_)
 
+        if class_.Schema.is_singleton:
+            obj = class_.make_instance(class_)
+            GameObject.__init__(obj)
+
+        if class_.Schema.is_static:
+            add_static_type(class_)
+
         return class_
 
 class GameObject(ColoredObject, metaclass=GameObjectMeta):
@@ -141,6 +167,9 @@ class GameObject(ColoredObject, metaclass=GameObjectMeta):
         do_not_load = ['deleted']
         constructors = {}
         is_singleton = False
+        is_static = False
+        class_fields = []
+        numeric_id = True
 
     def __init__(self) -> None:
         self.deleted = False
@@ -164,6 +193,11 @@ class GameObject(ColoredObject, metaclass=GameObjectMeta):
                 continue
 
             data[name] = serialize_field(value)
+
+        for name, value in type(self).__dict__.items():
+            if name in self.Schema.class_fields or \
+                (self.Schema.is_singleton and not name.startswith('__') and not isinstance(value, Callable)):
+                data[name] = serialize_field(value)
 
         delete_game_object(self)
         

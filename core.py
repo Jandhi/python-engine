@@ -1,4 +1,3 @@
-from console.error import print_error
 from events.game_event import initialize_events
 from objects.game_object import initialize_objects
 

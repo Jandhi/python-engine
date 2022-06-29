@@ -9,7 +9,13 @@ def link(obj):
                 return find_object(obj[7 + len(LINK_STRING):])
 
             type = obj[7 + len(LINK_STRING) : id_index]
-            id = int(obj[id_index + 6:]) if id_index != -1 else None
+            id = obj[id_index + 7:] if id_index != -1 else None
+
+            try:
+                id = int(id)
+            except ValueError:
+                pass
+
             return find_object(type, id)
         else:
             return obj

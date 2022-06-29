@@ -13,7 +13,7 @@ class IntegerArgument(Argument):
     def __init__(self, name, description) -> None:
         super().__init__(name, description)
     
-    def verify(self, value):
+    def fill(self, value):
         try:
             self.value = int(value)
         except ValueError:

@@ -6,3 +6,4 @@ class Building(GameObject):
         super().__init__()
 
         self.name = name
+        self.prototype = None

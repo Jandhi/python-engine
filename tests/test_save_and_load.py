@@ -1,7 +1,10 @@
 from objects.game_object import GameObject, find_object, initialize_objects
 from objects.save_and_load import load_file, save_file
+from objects.singleton import Singleton
 
 initialize_objects()
+
+from console.palette import Palette
 
 class NPC(GameObject):
     type = 'npc'
@@ -18,7 +21,7 @@ class SpecialNPC(NPC):
         super().__init__(name)
         self.bonds = bonds
 
-class FavouriteNPC(SpecialNPC):
+class FavouriteNPC(SpecialNPC, Singleton):
     type = 'favourite_npc'
 
     class Schema(SpecialNPC.Schema):
@@ -31,8 +34,8 @@ m = FavouriteNPC('favourite', [j])
 j.bonds = [n, m]
 
 
-save_file('test')
-load_file('test')
+save_file('tests/output/save_and_load')
+load_file('tests/output/save_and_load')
 
 j = find_object(SpecialNPC.type, 0)
 
