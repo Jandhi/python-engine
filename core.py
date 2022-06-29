@@ -4,3 +4,4 @@ from objects.game_object import initialize_objects
 def initialize():
     initialize_events()
     initialize_objects()
+    pass
