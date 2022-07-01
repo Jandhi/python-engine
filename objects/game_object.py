@@ -119,6 +119,11 @@ def get_objects(type):
 def add_type(cls):
     __object_types[cls.type] = cls
 
+# static operations
+
+def get_static_pool():
+    return __static_pool
+
 def add_static_type(cls):
     __static_types[cls.type] = cls
 

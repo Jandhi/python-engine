@@ -5,3 +5,5 @@ class Settler(GameObject):
         super().__init__()
 
         self.name = name
+        self.family = None
+        self.workplace = None

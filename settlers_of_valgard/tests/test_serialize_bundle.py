@@ -1,4 +1,4 @@
-from objects.game_object import find_object, get_object_pool, initialize_objects
+from objects.game_object import find_object, get_object_pool, get_static_pool, initialize_objects
 from objects.save_and_load import load_file, save_file
 
 initialize_objects()
