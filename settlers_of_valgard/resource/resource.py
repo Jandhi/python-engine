@@ -1,6 +1,6 @@
 from objects.game_object import GameObject
 from objects.static_object import StaticObject
-from settlers_of_valgard.colors import WOOD
+from settlers_of_valgard.colors import Colors
 
 class Resource(StaticObject):
     def __init__(self, name, color) -> None:
@@ -8,4 +8,4 @@ class Resource(StaticObject):
         self.name = name
         self.color = color
 
-Wood = Resource('Wood', WOOD)
+Wood = Resource('Wood', Colors.WOOD)
