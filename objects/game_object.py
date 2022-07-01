@@ -124,11 +124,13 @@ def add_static_type(cls):
 
 def remove_static_objects():
     for type in __static_pool:
-        __object_pool.pop(type)
+        if type in __object_pool:
+            __object_pool.pop(type) 
 
 def add_static_objects():
     for type, objects in __static_pool.items():
         __object_pool[type] = objects
+        __object_types[type] = __static_types[type]
 
 def get_object_class(type):
     if type not in __object_types:
@@ -143,12 +145,12 @@ class GameObjectMeta(type):
         if 'type' not in dct:
             class_.type = camel_to_snake.sub('_', name).lower()
 
-        if not class_.base_type and class_.type != 'game_object':
+        if not class_.base_type and not class_.type.startswith('__'):
             class_.base_type = class_.type
 
         add_type(class_)
 
-        if class_.Schema.is_singleton:
+        if class_.Schema.is_singleton and not class_.type.startswith('__'):
             obj = class_.make_instance(class_)
             GameObject.__init__(obj)
 
@@ -158,7 +160,7 @@ class GameObjectMeta(type):
         return class_
 
 class GameObject(ColoredObject, metaclass=GameObjectMeta):
-    type : str = None
+    type : str = '__game_object'
     base_type : str = None
     
     class Schema:

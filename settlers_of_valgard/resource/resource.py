@@ -1,4 +1,5 @@
 from objects.game_object import GameObject
+from settlers_of_valgard.colors import WOOD
 
 class Resource(GameObject):
     class Schema(GameObject.Schema):
@@ -12,4 +13,4 @@ class Resource(GameObject):
 
         super().__init__()
 
-wood = Resource('Wood', 'orange_4b')
+Wood = Resource('Wood', WOOD)

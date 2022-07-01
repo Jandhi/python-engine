@@ -1,7 +1,8 @@
 {
     "console_palette": {
         "type": "console_palette",
-        "ERROR_COLOR": "red"
+        "ERROR_COLOR": "red",
+        "base_type": "console_palette"
     },
     "favourite_npc": {
         "type": "favourite_npc",

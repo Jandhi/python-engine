@@ -1,0 +1,15 @@
+{
+    "settlement": {
+        "type": "settlement",
+        "day": "0",
+        "settlers": [],
+        "buildings": [],
+        "stockpile": {
+            "type": "bundle",
+            "data": {
+                "-> type : resource, id : Wood": "3"
+            }
+        },
+        "base_type": "settlement"
+    }
+}
