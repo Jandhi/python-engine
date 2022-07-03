@@ -31,6 +31,23 @@ class Bundle:
             return self
         
         raise ValueError("Can only add bundle or tuple to bundle")
+    
+    def __mul__(self, other):
+        contents = self.contents.copy()
+
+        for res in contents:
+            contents[res] *= 2
+        
+        return Bundle(contents)
+
+    def __imul__(self, other):
+        for res in self.contents:
+            self.contents[res] *= 2
+        
+        return self
+
+    def copy(self):
+        return Bundle(self.contents.copy())
 
 def make_bundle(data):
     return Bundle(construct(data['data']))

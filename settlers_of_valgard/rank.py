@@ -1,16 +1,17 @@
+from objects.enums.enum import OrderedEnum
 from objects.static_object import StaticObject
 from settlers_of_valgard.colors import Colors
 
 
-class Rank(StaticObject):
-    def __init__(self, name, color) -> None:
-        super().__init__(id=name)
-        self.name = name
-        self.color = color
+class Rank(OrderedEnum):
+    def __init__(self, name, color, value) -> None:
+        super().__init__(name, color, value)
 
-FREEMAN = Rank('Freeman', Colors.GRASS)
-HUSKARL = Rank('Huskarl', Colors.LAKE)
-GOTHI   = Rank('Gothi',   Colors.FUR)
-HIRDMAN = Rank('Hirdman', Colors.CRIMSON)
-JARL    = Rank('Jarl',    Colors.MAGENTA)
-KONUNG  = Rank('Konung',  Colors.GOLD)
+Freeman = Rank('Freeman', Colors.GRASS,     0)
+Huskarl = Rank('Huskarl', Colors.LAKE,      1)
+Gothi   = Rank('Gothi',   Colors.FUR,       2)
+Hirdman = Rank('Hirdman', Colors.CRIMSON,   3)
+Jarl    = Rank('Jarl',    Colors.MAGENTA,   4)
+Konung  = Rank('Konung',  Colors.GOLD,      5)
+
+RANKS = [Freeman, Huskarl, Gothi, Hirdman, Jarl, Konung]

@@ -4,19 +4,21 @@ colors = {}
 
 class Colors:
     # Browns
-    WOOD = 94
-    FUR = 95
+    WOOD = 95
+    FUR = 130
 
     # Greens
     GRASS = 10
     LIME = 46
     PINE = 22
     SWAMP = 100
+    JADE = 84
 
     # Reds
     CRIMSON = 124
     RED = 196
     CHERRY = 88
+    SALMON = 9
 
     # Blues
     OCEAN = 21
@@ -30,18 +32,24 @@ class Colors:
     LAVENDER = 147
     MAGENTA = 126
     DEEP_PURPLE = 57
+    PURPLE = 93
+    HOT_PINK = 201
+    FLAMINGO = 206
 
-    # Yellows
+    # Yellows & Oranges
     LEMON = 190
     SUNSHINE = 226
     GOLD = 178
+    ORANGE = 208
+    SAND = 228
 
     # Neutrals
     WHITE = 255
     STONE = 243
     STEEL = 249
+    COAL = 235
 
-def print_256colors():
+def print_256_colors():
     s = ''
     for c in range(256):
         t = color(f'COLOR{c}', c)

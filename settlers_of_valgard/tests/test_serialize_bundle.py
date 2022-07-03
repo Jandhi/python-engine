@@ -1,8 +1,5 @@
 from objects.game_object import find_object, get_object_pool, get_static_pool, initialize_objects
 from objects.save_and_load import load_file, save_file
-
-initialize_objects()
-
 from settlers_of_valgard.resource.resource import Wood
 from settlers_of_valgard.settlement import Settlement
 

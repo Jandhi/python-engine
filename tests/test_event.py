@@ -1,4 +1,4 @@
-from events.game_event import GameEvent, initialize_events, register_listener
+from events.game_event import GameEvent, initialize_events, add_listener
 
 initialize_events()
 
@@ -17,7 +17,7 @@ def listen(event):
     global received
     received += 'true'
 
-register_listener(TestEvent, listen, filter)
+add_listener(TestEvent, listen, filter)
 
 ev = TestEvent(False)
 ev.send()

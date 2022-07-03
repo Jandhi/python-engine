@@ -1,4 +1,11 @@
 {
+    "non_static": {
+        "test2": {
+            "type": "non_static",
+            "name": "test2",
+            "pointer": "-> type : static, id : test"
+        }
+    },
     "settlement": {
         "type": "settlement",
         "day": "0",
