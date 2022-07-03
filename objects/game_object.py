@@ -83,17 +83,22 @@ def remove_object(game_object):
     base_type = game_object.base_type
     __object_pool[base_type].pop(game_object.id)
 
+def validate_type_name(type_name):
+    if isinstance(type_name, type):
+        return type_name.type
+    else:
+        return type_name.lower()
+
 def get_base_type(type):
+    type = validate_type_name(type)
+
     if type not in __object_types:
         return None
 
     return __object_types[type].base_type
 
 def find_object(type_name, id = None):
-    if isinstance(type_name, type):
-        type_name = type_name.type
-    else:
-        type_name = type_name.lower()
+    type_name = validate_type_name(type_name)
 
     if type_name in __object_types and __object_types[type_name].Schema.is_singleton:
         return __object_pool[type_name]
@@ -109,6 +114,8 @@ def find_object(type_name, id = None):
     return __object_pool[base_type][id]
 
 def get_objects(type):
+    type = validate_type_name(type)
+
     base_type = get_base_type(type)
 
     if not base_type in __object_pool:

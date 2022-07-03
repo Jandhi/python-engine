@@ -14,6 +14,6 @@ class Building(GameObject):
         return self.prototype.__get_color()
         
 def make_building(prototype):
-    return Building
+    return Building(prototype)
 
 setattr(BuildingPrototype, 'make_building', make_building)

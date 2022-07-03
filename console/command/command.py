@@ -1,15 +1,17 @@
 from console.command.argument_container import ArgumentContainer
+from objects.static_object import StaticObject
 
-class Command(ArgumentContainer):
-    def __init__(self, name, description, 
+class Command(StaticObject, ArgumentContainer):
+    def __init__(self, name, description, execute, 
         aliases = None, 
         arguments = None, 
-        optional_arguments = None
+        optional_arguments = None,
+        tags = None,
     ) -> None:
-        super().__init__(arguments, optional_arguments)
+        StaticObject.__init__(self, id=name)
+        ArgumentContainer.__init__(self, arguments, optional_arguments)
         self.name = name
+        self.execute = execute
         self.description = description
         self.aliases = aliases or []
-    
-    def execute(*args) -> None:
-        pass
+        self.tags = tags or []

@@ -1,10 +1,13 @@
+from console.colored_string import color
 from console.command.command import Command
-from console.error import cerror, print_error
+from console.error import cerror
+from console.palette import Palette
+from objects.game_object import get_objects
 
 class CommandManager:
-    def __init__(self, commands) -> None:
-        self.commands : list[Command] = commands
-    
+    def get_commands(self) -> list[Command]:
+        return get_objects(Command)
+
     def process_input(self, input) -> None:
         args = self.split(input)
 
@@ -15,15 +18,24 @@ class CommandManager:
         command = self.find_command(command_name)
 
         if command is None:
-            cerror('No command with name "', command_name, '"')
+            cerror(f'No command with name "{color(command_name, Palette.INPUT_COLOR)}"')
             return
+        
+        try:
+            command.fill(args)
+        except ValueError as v:
+            print(v)
+        
+        command.execute(command)
 
     def find_command(self, name) -> Command:
-        for command in self.commands:
+        commands = self.get_commands()
+
+        for command in commands:
             if command.name == name:
                 return command
         
-        for command in self.commands:
+        for command in commands:
             if name in command.aliases:
                 return command
 

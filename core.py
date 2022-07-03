@@ -1,6 +1,17 @@
-from events.game_event import initialize_events
-from objects.game_object import initialize_objects
+from mimetypes import init
+from console.command.command_manager import CommandManager
+from game import is_running
 
-def initialize():
-    initialize_events()
-    initialize_objects()
+command_manager = CommandManager()
+
+def start():
+    main_loop()
+
+def main_loop():
+    import console.command.basic_commands
+
+    while is_running():
+        player_input = input("Please enter a command:\n")
+        command_manager.process_input(player_input)
+
+start()
