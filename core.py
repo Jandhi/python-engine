@@ -9,6 +9,7 @@ def start():
 
 def main_loop():
     import console.command.basic_commands
+    import settlers_of_valgard.settlers_of_valgard
 
     while is_running():
         player_input = input("Please enter a command:\n")

@@ -22,3 +22,7 @@ class ArgumentContainer:
                 self.arguments[i].fill(arg)
             else:
                 self.optional_arguments[i - min].fill(arg)
+    
+    def clear(self):
+        for arg in self.arguments + self.optional_arguments:
+            arg.value = None

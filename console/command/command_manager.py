@@ -27,6 +27,7 @@ class CommandManager:
             print(v)
         
         command.execute(command)
+        command.clear()
 
     def find_command(self, name) -> Command:
         commands = self.get_commands()
