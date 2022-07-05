@@ -1,4 +1,5 @@
 from mimetypes import init
+from console.choice import choice
 from console.command.command_manager import CommandManager
 from game import is_running
 

@@ -3,8 +3,12 @@ from console.command.command import Command
 from console.error import print_error
 from console.palette import Palette
 from objects.game_object import get_objects
+from objects.singleton import Singleton
 
-class CommandManager:
+class CommandManager(Singleton):
+    class Schema(Singleton.Schema):
+        is_static = True
+
     def get_commands(self) -> list[Command]:
         return get_objects(Command)
 
