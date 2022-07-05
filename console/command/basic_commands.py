@@ -1,9 +1,11 @@
 from console.command.command import Command
+from console.verification import get_verification
 from game import set_running
 
 def Quit(cmd):
-    set_running(False)
-    print("Goodbye!")
+    if get_verification("Do you really want to exit the game?"):
+        set_running(False)
+        print("Goodbye!")
 
 Command(
     "Quit",

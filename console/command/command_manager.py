@@ -1,6 +1,6 @@
 from console.colored_string import color
 from console.command.command import Command
-from console.error import cerror
+from console.error import print_error
 from console.palette import Palette
 from objects.game_object import get_objects
 
@@ -18,7 +18,8 @@ class CommandManager:
         command = self.find_command(command_name)
 
         if command is None:
-            cerror(f'No command with name "{color(command_name, Palette.INPUT_COLOR)}"')
+            cname = f'"{command_name}"'
+            print_error(f'No command with name {color(cname, Palette.INPUT_COLOR)}')
             return
         
         try:

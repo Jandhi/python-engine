@@ -5,6 +5,9 @@ STARTS_WITH = 'starts_with'
 ENDS_WITH = 'ends_with'
 
 def match(obj, value, pattern):
+    if isinstance(pattern, tuple) and pattern[0] == CONTAINS:
+        return any([match(item, value, list(pattern)[1:]) for item in obj])
+
     if pattern == CONTAINS:
         return any([match(item, value) for item in obj])
     
