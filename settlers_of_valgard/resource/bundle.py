@@ -36,9 +36,12 @@ class Bundle:
         contents = self.contents.copy()
 
         for res in contents:
-            contents[res] *= 2
+            contents[res] *= other
         
         return Bundle(contents)
+
+    def __rmul__(self, other):
+        return self.__mul__(other)
 
     def __imul__(self, other):
         for res in self.contents:
@@ -48,6 +51,17 @@ class Bundle:
 
     def copy(self):
         return Bundle(self.contents.copy())
+    
+    def __str__(self) -> str:
+        s = ''
+
+        for res, amt in self.contents.items():
+            s = f'{s}, {amt} {res}'
+
+        if s == '':
+            return '-'
+
+        return s[2:]
 
 def make_bundle(data):
     return Bundle(construct(data['data']))

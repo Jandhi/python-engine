@@ -1,5 +1,6 @@
 from settlers_of_valgard.building.prototype.building_prototype import BuildingPrototype
 from settlers_of_valgard.events.event import BlockableEvent
+from settlers_of_valgard.work.work import WorkEvent
 
 class Workplace(BuildingPrototype):
     def __init__(self, name, color, workers = None) -> None:
@@ -7,7 +8,7 @@ class Workplace(BuildingPrototype):
 
         self.workers = workers or []
 
-        for worker in workers:
+        for worker in self.workers:
             worker.workplace = self
     
     def add_worker(self, worker):
@@ -29,9 +30,3 @@ class Workplace(BuildingPrototype):
     def __work(self, worker, settlement):
         pass
 
-class WorkEvent(BlockableEvent):
-    def __init__(self, worker, workplace, settlement) -> None:
-        super().__init__()
-        self.worker = worker
-        self.workplace = workplace
-        self.settlement = settlement

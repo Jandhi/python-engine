@@ -5,7 +5,6 @@ from settlers_of_valgard.resource.bundle import Bundle
 from settlers_of_valgard.resource.resource import Meat, send_to_stockpile
 from settlers_of_valgard.settler.settler import Settler
 from noise.dice import highest
-from settlers_of_valgard.settler.skill import Hunting
 
 class Harvester(Workplace):
     def __init__(self, name, color, skill, basket : list[Bundle], workers=None) -> None:
@@ -20,12 +19,3 @@ class Harvester(Workplace):
         gain = self.basket[roll - 1].copy()
 
         send_to_stockpile(gain)
-
-hunters_hut = Harvester('Hunter\'s Hut', Colors.GRASS, Hunting, [
-    Bundle(), #1
-    Bundle((Meat, 1)), #2
-    Bundle((Meat, 2)), #3
-    Bundle((Meat, 2)), #4
-    Bundle((Meat, 2)), #5
-    Bundle((Meat, 3)), #6
-])

@@ -7,27 +7,28 @@ class Skill(NamedEnum):
     def __init__(self, name, color) -> None:
         super().__init__(name, color)
 
-Hunting = Skill("Hunting", Colors.GRASS)
+
 
 class SkillLevel(OrderedEnum):
-    def __init__(self, name, color, value) -> None:
+    def __init__(self, name, color, value, xp_threshold) -> None:
         super().__init__(name, color, value)
+        self.xp_threshold = xp_threshold
     
     def get_dice(self):
         return SKILL_DICE[self.value]
 
-Unskilled = SkillLevel("Unskilled", Colors.STONE, 0) #1d4
-Novice = SkillLevel("Novice", Colors.GRASS, 1)       #2d4
-Apprentice = SkillLevel("Apprentice", Colors.SKY, 2) #3d4
+Unskilled = SkillLevel("Unskilled", Colors.STONE, 0, 0) #1d4
+Novice = SkillLevel("Novice", Colors.GRASS, 1, 5)       #2d4
+Apprentice = SkillLevel("Apprentice", Colors.SKY, 2, 15) #3d4
 # regular workers should get to these tiers in time
-Competent = SkillLevel("Competent", Colors.ORANGE, 3) #1d6, 1d4
-Skilled = SkillLevel("Skilled", Colors.LAKE, 4)       #2d6
-Adept = SkillLevel("Adept", Colors.CRIMSON, 5)        #3d6
+Competent = SkillLevel("Competent", Colors.ORANGE, 3, 30) #1d6, 1d4
+Skilled = SkillLevel("Skilled", Colors.LAKE, 4, 60)       #2d6
+Adept = SkillLevel("Adept", Colors.CRIMSON, 5, 120)        #3d6
 # highest tier, only few should make it this far
-Expert = SkillLevel("Expert", Colors.MAGENTA, 6)      #2d8
-Master = SkillLevel("Master", Colors.GOLD, 7)         #3d8
+Expert = SkillLevel("Expert", Colors.MAGENTA, 6, 200)      #2d8
+Master = SkillLevel("Master", Colors.GOLD, 7, 400)         #3d8
 
-SKILLS = [Unskilled, Novice, Apprentice, Competent, Adept, Expert, Master]
+LEVELS = [Unskilled, Novice, Apprentice, Competent, Adept, Expert, Master]
 SKILL_DICE = {
     0 : DicePool((1, 4)), 
     1 : DicePool((2, 4)), 
@@ -49,3 +50,10 @@ ODDS = {
     6 : [0.016, 0.047, 0.078, 0.109, 0.141, 0.172, 0.203, 0.234],
     7 : [0.002, 0.012, 0.037, 0.072, 0.119, 0.178, 0.248, 0.330],
 }
+
+def get_level(xp):
+    for skill in LEVELS[::-1]:
+        if xp >= skill.xp_threshold:
+            return skill
+    
+    return Unskilled
