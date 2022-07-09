@@ -15,3 +15,25 @@ class Command(StaticObject, ArgumentContainer):
         self.description = description
         self.aliases = aliases or []
         self.tags = tags or []
+    
+    def fill(self, args):
+        i = 0
+        min = self.min_arguments()
+
+        while len(args) > 0:
+            arg = args.pop(0)
+            tag = self.find_tag(arg)
+
+            if tag is not None:
+                tag.fill(args)
+                continue
+
+            if i < len(self.arguments):
+                self.arguments[i].fill(arg)
+            else:
+                self.optional_arguments[i - min].fill(arg)
+    
+    def find_tag(self, name):
+        for tag in self.tags:
+            if tag.name == name or name in tag.aliases:
+                return tag

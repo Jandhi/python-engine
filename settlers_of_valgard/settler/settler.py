@@ -1,5 +1,5 @@
 from objects.game_object import GameObject
-from settlers_of_valgard.settler.skill import SkillLevel, Unskilled, get_level
+from settlers_of_valgard.settler.skill import SkillLevel, get_level
 from settlers_of_valgard.colors import Colors
 
 class Settler(GameObject):
@@ -13,6 +13,9 @@ class Settler(GameObject):
         self.xp = {}
     
     def get_skill_level(self, skill) -> SkillLevel:
+        if skill not in self.xp:
+            return get_level(0)
+
         return get_level(self.xp[skill])
     
     def add_xp(self, skill, amt):

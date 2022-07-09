@@ -10,13 +10,13 @@ from settlers_of_valgard.building.prototype.harvester import Harvester
 from settlers_of_valgard.resource.bundle import Bundle
 from settlers_of_valgard.settler.skill import LEVELS, ODDS
 
-type_arg = Argument("building_type", "the type of building whose yield you want")
+yield_type_arg = Argument("building_type", "the type of building whose yield you want")
 def yield_execute(cmd):
-    proto = find_object(BuildingPrototype, type_arg.value)
+    proto = find_object(BuildingPrototype, yield_type_arg.value)
     all = Query(BuildingPrototype).all()
 
     if proto is None:
-        print_error(f'Building Prototype "{color(type_arg.value, Palette.INPUT_COLOR)}" not found')
+        print_error(f'Building Prototype "{color(yield_type_arg.value, Palette.INPUT_COLOR)}" not found')
     
     if isinstance(proto, Harvester):
         for level in LEVELS:
@@ -29,4 +29,4 @@ def yield_execute(cmd):
     else:
         # TODO add yields for non harvesters?
         print_error('Yields from non-harvesters not yet implemented!')
-yield_cmd = Command("yield", "find the average yield of a prototype", yield_execute, arguments=[type_arg])
+yield_cmd = Command("yield", "find the average yield of a prototype", yield_execute, arguments=[yield_type_arg])

@@ -7,11 +7,11 @@ class Building(GameObject):
 
         self.prototype = prototype
     
-    def __get_name(self):
-        return self.prototype.__get_name()
+    def get_name(self):
+        return self.prototype.get_name()
     
-    def __get_color(self):
-        return self.prototype.__get_color()
+    def get_color(self):
+        return self.prototype.get_color()
         
 def make_building(prototype):
     return Building(prototype)
