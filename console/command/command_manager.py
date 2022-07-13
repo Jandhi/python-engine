@@ -1,16 +1,18 @@
 from console.colored_string import color
 from console.command.command import Command
+from console.command.scopes import ENGINE_MENU, GLOBAL
 from console.error import print_error
 from console.palette import Palette
-from objects.game_object import get_objects
-from objects.singleton import Singleton
+from objects.query import Query
+from objects.static_object import StaticSingleton
 
-class CommandManager(Singleton):
-    class Schema(Singleton.Schema):
-        is_static = True
+class CommandManager(StaticSingleton):
+    def __init__(self) -> None:
+        super().__init__()
+        self.scopes = [GLOBAL, ENGINE_MENU]
 
     def get_commands(self) -> list[Command]:
-        return get_objects(Command)
+        return Query(Command).filter(lambda cmd : cmd.scope in self.scopes).all()
 
     def process_input(self, input) -> None:
         args = self.split(input)

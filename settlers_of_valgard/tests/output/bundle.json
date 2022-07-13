@@ -17,6 +17,7 @@
                 "-> type : resource, id : Wood": "3"
             }
         },
+        "unlocked_blueprints": [],
         "base_type": "settlement"
     }
 }

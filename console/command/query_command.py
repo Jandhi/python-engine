@@ -13,7 +13,8 @@ class QueryCommand(Command):
         aliases=None, 
         arguments=None, 
         optional_arguments=None, 
-        tags=None
+        tags=None,
+        scope=None,
     ) -> None:
         prefix_arg = Argument('prefix', f"the beginning of the {type}'s name")
         suffix_arg = Argument('suffix', f"the ending of the {type}'s name")
@@ -49,7 +50,7 @@ class QueryCommand(Command):
                         print(obj)
             
         
-        super().__init__(name, description, query, aliases, arguments, optional_arguments, tags)
+        super().__init__(name, description, query, aliases, arguments, optional_arguments, tags, scope)
 
         for tag in [
             suffix_tag, midfix_tag

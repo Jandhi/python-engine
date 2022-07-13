@@ -1,10 +1,8 @@
 from objects.singleton import Singleton
+from objects.static_object import StaticSingleton
 
-class EngineSettings(Singleton):
+class EngineSettings(StaticSingleton):
     __is_running = True
-
-    class Schema(Singleton.Schema):
-        is_static = True
 
     def is_running(self):
         return EngineSettings.__is_running

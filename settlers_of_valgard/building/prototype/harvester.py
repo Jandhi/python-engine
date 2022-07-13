@@ -18,4 +18,4 @@ class Harvester(Workplace):
         roll = lvl.get_dice().highest(get_game_seed() * settlement.day * worker)
         gain = self.basket[roll - 1].copy()
 
-        send_to_stockpile(gain)
+        send_to_stockpile(gain) 

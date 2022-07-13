@@ -1,4 +1,5 @@
 from console.command.argument_container import ArgumentContainer
+from console.command.scopes import GLOBAL
 from objects.static_object import StaticObject
 
 class Command(StaticObject, ArgumentContainer):
@@ -7,6 +8,7 @@ class Command(StaticObject, ArgumentContainer):
         arguments = None, 
         optional_arguments = None,
         tags = None,
+        scope = GLOBAL,
     ) -> None:
         StaticObject.__init__(self, id=name)
         ArgumentContainer.__init__(self, arguments, optional_arguments)
@@ -15,6 +17,7 @@ class Command(StaticObject, ArgumentContainer):
         self.description = description
         self.aliases = aliases or []
         self.tags = tags or []
+        self.scope = scope
     
     def fill(self, args):
         i = 0

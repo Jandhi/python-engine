@@ -1,5 +1,5 @@
 from objects.game_object import GameObject
-from settlers_of_valgard.settler.skill import SkillLevel, get_level
+from settlers_of_valgard.settler.skill import LevelDownEvent, SkillLevel, get_level, AddXPEvent, LevelUpEvent
 from settlers_of_valgard.colors import Colors
 
 class Settler(GameObject):
@@ -19,7 +19,17 @@ class Settler(GameObject):
         return get_level(self.xp[skill])
     
     def add_xp(self, skill, amt):
-        if skill not in self.xp:
-            self.xp[skill] = 0
-        
-        self.xp[skill] += amt
+        lvl = self.get_skill_level(skill)
+
+        if AddXPEvent(self, skill, amt).send_is_success():
+            if skill not in self.xp:
+                self.xp[skill] = 0
+            
+            self.xp[skill] += amt
+
+            new_lvl = self.get_skill_level(skill)
+
+            if new_lvl > lvl:
+                LevelUpEvent(self, skill, lvl, new_lvl).send()
+            elif new_lvl < lvl:
+                LevelDownEvent(self, skill, lvl, new_lvl).send()

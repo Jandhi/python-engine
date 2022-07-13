@@ -1,4 +1,6 @@
+
 from objects.game_object import GameObject, get_static_pool
+from objects.singleton import Singleton
 
 class StaticObject(GameObject):
     type = '__static_object'
@@ -21,3 +23,9 @@ def list_statics():
             s = f'{s} {val}'
         
         print(s)
+
+class StaticSingleton(Singleton):
+    type = '__static_singleton'
+
+    class Schema(Singleton.Schema):
+        is_static = True

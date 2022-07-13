@@ -9,3 +9,4 @@ class Settlement(Singleton):
         self.settlers = []
         self.buildings = []
         self.stockpile = Bundle()
+        self.unlocked_blueprints = []

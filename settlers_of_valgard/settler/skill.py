@@ -2,6 +2,7 @@ from noise.dice import DicePool
 from objects.enums.enum import NamedEnum, OrderedEnum
 from objects.static_object import StaticObject
 from settlers_of_valgard.colors import Colors
+from settlers_of_valgard.events.event import BlockableEvent, SoVEvent
 
 class Skill(NamedEnum):
     def __init__(self, name, color) -> None:
@@ -57,3 +58,26 @@ def get_level(xp):
             return skill
     
     return Unskilled
+
+class AddXPEvent(BlockableEvent):
+    def __init__(self, settler, skill, amt) -> None:
+        super().__init__()
+        self.settler = settler
+        self.skill = skill
+        self.amount = amt
+
+class LevelUpEvent(SoVEvent):
+    def __init__(self, settler, skill, old_level, new_level) -> None:
+        super().__init__()
+        self.settler = settler
+        self.skill = skill
+        self.old_level = old_level
+        self.new_level = new_level
+
+class LevelDownEvent(SoVEvent):
+    def __init__(self, settler, skill, old_level, new_level) -> None:
+        super().__init__()
+        self.settler = settler
+        self.skill = skill
+        self.old_level = old_level
+        self.new_level = new_level

@@ -35,3 +35,7 @@ class GameEvent:
     def send_and_return(self):
         self.send()
         return self
+    
+    @classmethod
+    def add_listener(cls, listener, filter = None):
+        add_listener(cls, listener, filter)

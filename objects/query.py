@@ -42,6 +42,11 @@ class Query():
         self.objects = list(filter(fltr, self.objects))
 
         return self
+
+    def filter(self, fltr):
+        self.objects = list(filter(fltr, self.objects))
+
+        return self
     
     def first(self):
         if len(self.objects) > 0:

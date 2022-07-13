@@ -1,7 +1,14 @@
 {
     "console_palette": {
         "type": "console_palette",
-        "ERROR_COLOR": "red",
+        "ERROR_COLOR": "196",
+        "INPUT_COLOR": "81",
+        "UNDERLINE": "243",
+        "BLUE": "33",
+        "GREEN": "10",
+        "YELLOW": "190",
+        "ORANGE": "208",
+        "RED": "196",
         "base_type": "console_palette"
     },
     "favourite_npc": {
