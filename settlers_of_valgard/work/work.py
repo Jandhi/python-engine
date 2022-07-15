@@ -1,4 +1,10 @@
 from settlers_of_valgard.events.event import BlockableEvent
+from settlers_of_valgard.settlement import Settlement
+
+def work(settlement : Settlement):
+    for settler in settlement.settlers:
+        if settler.workplace is not None:
+            pass
 
 def work_phase(settlement):
     for settler in settlement.settlers:

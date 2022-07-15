@@ -10,3 +10,4 @@ class Settlement(Singleton):
         self.buildings = []
         self.stockpile = Bundle()
         self.unlocked_blueprints = []
+        self.discovered_technologies = []
