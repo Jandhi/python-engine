@@ -83,17 +83,22 @@ def remove_object(game_object):
     base_type = game_object.base_type
     __object_pool[base_type].pop(game_object.id)
 
+def validate_type_name(type_name):
+    if isinstance(type_name, type):
+        return type_name.type
+    else:
+        return type_name.lower()
+
 def get_base_type(type):
+    type = validate_type_name(type)
+
     if type not in __object_types:
         return None
 
     return __object_types[type].base_type
 
 def find_object(type_name, id = None):
-    if isinstance(type_name, type):
-        type_name = type_name.type
-    else:
-        type_name = type_name.lower()
+    type_name = validate_type_name(type_name)
 
     if type_name in __object_types and __object_types[type_name].Schema.is_singleton:
         return __object_pool[type_name]
@@ -109,6 +114,8 @@ def find_object(type_name, id = None):
     return __object_pool[base_type][id]
 
 def get_objects(type):
+    type = validate_type_name(type)
+
     base_type = get_base_type(type)
 
     if not base_type in __object_pool:
@@ -119,16 +126,23 @@ def get_objects(type):
 def add_type(cls):
     __object_types[cls.type] = cls
 
+# static operations
+
+def get_static_pool():
+    return __static_pool
+
 def add_static_type(cls):
     __static_types[cls.type] = cls
 
 def remove_static_objects():
     for type in __static_pool:
-        __object_pool.pop(type)
+        if type in __object_pool:
+            __object_pool.pop(type) 
 
 def add_static_objects():
     for type, objects in __static_pool.items():
         __object_pool[type] = objects
+        __object_types[type] = __static_types[type]
 
 def get_object_class(type):
     if type not in __object_types:
@@ -143,12 +157,12 @@ class GameObjectMeta(type):
         if 'type' not in dct:
             class_.type = camel_to_snake.sub('_', name).lower()
 
-        if not class_.base_type and class_.type != 'game_object':
+        if not class_.base_type and not class_.type.startswith('__'):
             class_.base_type = class_.type
 
         add_type(class_)
 
-        if class_.Schema.is_singleton:
+        if class_.Schema.is_singleton and not class_.type.startswith('__'):
             obj = class_.make_instance(class_)
             GameObject.__init__(obj)
 
@@ -158,7 +172,7 @@ class GameObjectMeta(type):
         return class_
 
 class GameObject(ColoredObject, metaclass=GameObjectMeta):
-    type : str = None
+    type : str = '__game_object'
     base_type : str = None
     
     class Schema:

@@ -1,6 +1,7 @@
 {
     "test": {
         "type": "test",
-        "test": "bozo"
+        "test": "bozo",
+        "base_type": "test"
     }
 }

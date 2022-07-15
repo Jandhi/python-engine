@@ -52,7 +52,8 @@ def construct_game_object(cls, data):
             setattr(cls, name, construct(value))
             continue
 
-        setattr(obj, name, construct(value))
+        constructed = construct(value)
+        setattr(obj, name, constructed)
 
     GameObject.__init__(obj)
     return obj

@@ -4,6 +4,7 @@ def make_instance(cls):
     return cls.__new__(cls)
 
 class Singleton(GameObject):
+    type = '__singleton'
     make_instance = make_instance
 
     class Schema(GameObject.Schema):

@@ -33,6 +33,8 @@ def link(obj):
 
     for key in keys:
         obj.__dict__[key] = link(obj.__dict__[key])
+    
+    return obj
 
 def link_objects():
     pool = get_object_pool()

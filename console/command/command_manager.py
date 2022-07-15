@@ -1,10 +1,19 @@
+from console.colored_string import color
 from console.command.command import Command
-from console.error import cerror, print_error
+from console.command.scopes import ENGINE_MENU, GLOBAL
+from console.error import print_error
+from console.palette import Palette
+from objects.query import Query
+from objects.static_object import StaticSingleton
 
-class CommandManager:
-    def __init__(self, commands) -> None:
-        self.commands : list[Command] = commands
-    
+class CommandManager(StaticSingleton):
+    def __init__(self) -> None:
+        super().__init__()
+        self.scopes = [GLOBAL, ENGINE_MENU]
+
+    def get_commands(self) -> list[Command]:
+        return Query(Command).filter(lambda cmd : cmd.scope in self.scopes).all()
+
     def process_input(self, input) -> None:
         args = self.split(input)
 
@@ -15,15 +24,26 @@ class CommandManager:
         command = self.find_command(command_name)
 
         if command is None:
-            cerror('No command with name "', command_name, '"')
+            cname = f'"{command_name}"'
+            print_error(f'No command with name {color(cname, Palette.INPUT_COLOR)}')
             return
+        
+        try:
+            command.fill(args)
+        except ValueError as v:
+            print(v)
+        
+        command.execute(command)
+        command.clear()
 
     def find_command(self, name) -> Command:
-        for command in self.commands:
+        commands = self.get_commands()
+
+        for command in commands:
             if command.name == name:
                 return command
         
-        for command in self.commands:
+        for command in commands:
             if name in command.aliases:
                 return command
 
