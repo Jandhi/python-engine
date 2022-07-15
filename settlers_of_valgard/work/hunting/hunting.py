@@ -3,8 +3,11 @@ from settlers_of_valgard.resource.bundle import Bundle
 from settlers_of_valgard.resource.resource import Meat
 from settlers_of_valgard.settler.skill import Skill
 from settlers_of_valgard.colors import Colors
+from settlers_of_valgard.tech.technology import Technology
 
 Hunting = Skill('Hunting', Colors.GRASS)
+
+HuntingTech = Technology('Hunting', Colors.GRASS)
 
 hunters_hut = Harvester('Hunter\'s_Hut', Colors.GRASS, Hunting, [
     Bundle(),               #1
