@@ -7,3 +7,8 @@ class Tag(ArgumentContainer):
         self.name = name
         self.description = description
         self.aliases = aliases
+        self.used = False
+    
+    def clear(self):
+        self.used = False
+        super().clear()

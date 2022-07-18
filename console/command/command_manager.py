@@ -32,6 +32,7 @@ class CommandManager(StaticSingleton):
             command.fill(args)
         except ValueError as v:
             print(v)
+            return command.clear()
         
         command.execute(command)
         command.clear()

@@ -1,4 +1,6 @@
+from objects.query import Query
 from objects.singleton import Singleton
+from settlers_of_valgard.logger.logger import Logger
 from settlers_of_valgard.resource.bundle import Bundle
 
 class Settlement(Singleton):
@@ -10,3 +12,7 @@ class Settlement(Singleton):
         self.buildings = []
         self.stockpile = Bundle()
         self.unlocked_blueprints = []
+    
+    def pass_day(self):
+        self.day += 1
+        Logger.instance.day += 1

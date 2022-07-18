@@ -1,3 +1,4 @@
+from objects.query import Query
 from objects.static_object import StaticObject
 
 class NamedEnum(StaticObject):
@@ -33,3 +34,6 @@ class OrderedEnum(NamedEnum):
     
     def __ge__(self, other) -> bool:
         return self.value >= other.value
+
+def getEnum(value, type):
+    return Query(type).filter(lambda obj : obj.value == value).first()

@@ -29,6 +29,7 @@ class Command(StaticObject, ArgumentContainer):
 
             if tag is not None:
                 tag.fill(args)
+                tag.used = True
                 continue
 
             if i < len(self.arguments):
