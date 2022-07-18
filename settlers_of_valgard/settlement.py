@@ -12,6 +12,7 @@ class Settlement(Singleton):
         self.buildings = []
         self.stockpile = Bundle()
         self.unlocked_blueprints = []
+        self.discovered_technologies = []
     
     def pass_day(self):
         self.day += 1
