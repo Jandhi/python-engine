@@ -3,6 +3,9 @@ from console.colored_string import ColoredString, color
 from console.palette import Palette
 
 def title(cstr : ColoredString):
+    if isinstance(cstr, str):
+        cstr = ColoredString(cstr)
+
     if isinstance(cstr, ColoredObject):
         cstr = color(cstr)
 
