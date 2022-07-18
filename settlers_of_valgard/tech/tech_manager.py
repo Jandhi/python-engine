@@ -4,7 +4,6 @@ from settlers_of_valgard.tech.technology import DISCOVERED, LOCKED, UNLOCKED, Te
 from settlers_of_valgard.settlement import Settlement
 from settlers_of_valgard.player_info import PlayerInfo
 from objects.query import Query
-from events.game_event import add_listener
 
 class TechManager(StaticSingleton):
     instance = None
@@ -36,4 +35,4 @@ class TechManager(StaticSingleton):
         for tech in Query(Technology).all():
             tech.status = self.__get_status(tech)
 
-add_listener(TechDiscoveredEvent, lambda tech : TechManager.instance.update())
+TechDiscoveredEvent.add_listener(lambda tech : TechManager.instance.update())
