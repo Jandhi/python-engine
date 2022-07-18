@@ -24,13 +24,24 @@ class Technology(StaticObject):
         self.required_tech = required_tech or []
         self.required_rank = required_rank
         self.status = LOCKED
+    
+    def discover(self):
+        settlement : Settlement = find_object(Settlement)
+        settlement.discovered_technologies.append(self)
+        # TODO
+        TechManager.instance.update_status()
+
+
 
 class TechManager(StaticSingleton):
+    instance = None
+
     def __init__(self) -> None:
         super().__init__()
 
         self.settlement : Settlement = None
         self.player_info : PlayerInfo = None
+        TechManager.instance = self
     
     def __get_status(self, tech : Technology):
         if tech in self.settlement.discovered_technologies:
