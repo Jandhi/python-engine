@@ -1,6 +1,6 @@
 from settlers_of_valgard.building.prototype.building_prototype import BuildingPrototype
 from settlers_of_valgard.events.event import BlockableEvent
-from settlers_of_valgard.work.work import WorkEvent
+from settlers_of_valgard.processes.work import WorkEvent
 
 class Workplace(BuildingPrototype):
     def __init__(self, name, color, workers = None) -> None:

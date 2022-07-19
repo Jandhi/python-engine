@@ -1,6 +1,7 @@
 from typing import Pattern
 from console.colored_string import color
 from console.command.argument import Argument
+from console.command.scopes import GLOBAL
 from console.palette import Palette
 from console.command.tag import Tag
 from console.command.command import Command
@@ -8,13 +9,14 @@ from objects.query import CONTAINS, ENDS_WITH, STARTS_WITH, Query
 
 class QueryCommand(Command):
     def __init__(self, name, description, type, 
-        single_formatter = None, 
-        list_formatter = None, 
+        single_formatter = None,
+        whole_list_formatter = None, 
+        in_list_formatter = None, 
         aliases=None, 
         arguments=None, 
         optional_arguments=None, 
         tags=None,
-        scope=None,
+        scope=GLOBAL,
     ) -> None:
         prefix_arg = Argument('prefix', f"the beginning of the {type}'s name")
         suffix_arg = Argument('suffix', f"the ending of the {type}'s name")
@@ -34,20 +36,23 @@ class QueryCommand(Command):
             if midfix_arg.value is not None:
                 q = q.with_field('name', midfix_arg.value, CONTAINS)
 
-            objs = q.all()
-            if len(objs) == 0:
+            obj_list = q.all()
+            if len(obj_list) == 0:
                 print(color("None found!", Palette.ERROR_COLOR))
-            elif len(objs) == 1:
+            elif len(obj_list) == 1:
                 if single_formatter is not None:
-                    print(single_formatter(objs[0]))
+                    print(single_formatter(obj_list[0]))
                 else:
-                    print(objs[0])
+                    print(obj_list[0])
             else:
-                for obj in objs:
-                    if list_formatter is not None:
-                        print(list_formatter(obj))
-                    else:
-                        print(obj)
+                if whole_list_formatter is not None:
+                    print(whole_list_formatter(obj_list))
+                else:
+                    for obj in obj_list:
+                        if in_list_formatter is not None:
+                            print(in_list_formatter(obj))
+                        else:
+                            print(obj)
             
         
         super().__init__(name, description, query, aliases, arguments, optional_arguments, tags, scope)

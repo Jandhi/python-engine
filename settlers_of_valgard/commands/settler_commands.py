@@ -10,7 +10,7 @@ def settler_formatter(settler : Settler):
     
     return s
 
-QueryCommand(
+settler_cmd = QueryCommand(
     "settlers", 
     "lists the settlers of your settlement",
     Settler,
@@ -30,7 +30,7 @@ def skills_formatter(settler : Settler):
 
     return s
 
-QueryCommand(
+skill_cmd = QueryCommand(
     "skills",
     "lists the skills of a settler",
     Settler,
