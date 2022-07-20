@@ -1,4 +1,5 @@
 from console.command.query_command import QueryCommand
+from console.command.scopes import IN_GAME
 from console.command.tag import Tag
 from settlers_of_valgard.processes.hunger import Hunger, get_hunger_status
 from settlers_of_valgard.settler.settler import Settler
@@ -24,9 +25,13 @@ def list_hunger(settlers):
         
         for status, count in sorted(statuses.items(), lambda pair : pair[0].value * -1):
             s = f'{s}{status}: {count}\n'
+
+        s = s[:-1]
     else:
         for settler in settlers:
             s = f'{s}{settler}: {get_hunger_status(settler)}\n'
+        
+        s = s[:-1]
     
     return s
 
@@ -35,5 +40,6 @@ HungerCommand = QueryCommand(
     'lists the hunger of settlers',
     Settler,
     single_formatter=display_hunger,
-    whole_list_formatter=list_hunger
+    whole_list_formatter=list_hunger,
+    scope=IN_GAME
 )

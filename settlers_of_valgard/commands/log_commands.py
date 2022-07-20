@@ -1,6 +1,7 @@
 from re import L
 from console.command.command import Command
 from console.command.argument import Argument, IntegerArgument
+from console.command.scopes import IN_GAME
 from console.command.tag import Tag
 from console.error import print_error
 from objects.query import Query
@@ -34,5 +35,6 @@ log_command = Command(
     'log',
     'displays the log of the current or a given day',
     log_execute,
-    optional_arguments=[log_day_argument]
+    optional_arguments=[log_day_argument],
+    scope=IN_GAME
 )

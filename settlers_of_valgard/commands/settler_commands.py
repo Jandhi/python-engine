@@ -1,6 +1,7 @@
 from ast import alias
 from console.colored_string import ColoredString, color
 from console.command.query_command import QueryCommand
+from console.command.scopes import IN_GAME
 from console.title import title
 from settlers_of_valgard.settler.settler import Settler
 from settlers_of_valgard.colors import Colors
@@ -15,7 +16,8 @@ settler_cmd = QueryCommand(
     "lists the settlers of your settlement",
     Settler,
     aliases=["s", "settler"],
-    single_formatter=settler_formatter
+    single_formatter=settler_formatter,
+    scope=IN_GAME
 )
 
 def skills_formatter(settler : Settler):
@@ -36,4 +38,5 @@ skill_cmd = QueryCommand(
     Settler,
     aliases=["skill", "skl", "sk"],
     single_formatter=skills_formatter,
+    scope=IN_GAME
 )

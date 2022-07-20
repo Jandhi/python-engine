@@ -1,4 +1,5 @@
 from console.command.command import Command
+from console.command.scopes import IN_GAME
 from console.command.tag import Tag
 from console.title import title
 from objects.game_object import find_object
@@ -26,5 +27,6 @@ tech_command = Command(
     'displays information about technologies', 
     tech_execute, 
     aliases=['tc', 'technologies', 'technology', 'techno'],
-    tags=[status_tag]
+    tags=[status_tag],
+    scope=IN_GAME
 )

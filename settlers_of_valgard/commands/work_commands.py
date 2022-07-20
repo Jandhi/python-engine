@@ -1,5 +1,6 @@
 from console.command.argument import Argument
 from console.command.command import Command
+from console.command.scopes import IN_GAME
 from objects.game_object import find_object
 from objects.query import Query
 from console.error import print_error
@@ -29,4 +30,10 @@ def yield_execute(cmd):
     else:
         # TODO add yields for non harvesters?
         print_error('Yields from non-harvesters not yet implemented!')
-yield_cmd = Command("yield", "find the average yield of a prototype", yield_execute, arguments=[yield_type_arg])
+yield_cmd = Command(
+    "yield", 
+    "find the average yield of a prototype", 
+    yield_execute, 
+    arguments=[yield_type_arg],
+    scope=IN_GAME
+)
