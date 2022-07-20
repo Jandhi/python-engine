@@ -18,10 +18,10 @@ class QueryCommand(Command):
         tags=None,
         scope=GLOBAL,
     ) -> None:
-        prefix_arg = Argument('prefix', f"the beginning of the {type}'s name")
-        suffix_arg = Argument('suffix', f"the ending of the {type}'s name")
+        prefix_arg = Argument('prefix', f"the beginning of the {type.__name__}'s name")
+        suffix_arg = Argument('suffix', f"the ending of the {type.__name__}'s name")
         suffix_tag = Tag('-suffix', '', ['-ends-with', '-ends', '-endswith', '-suf', '-sfx', '-suff'], [suffix_arg])
-        midfix_arg = Argument('midfix', f"a string found in the middle of the {type}'s name")
+        midfix_arg = Argument('midfix', f"a string found in the middle of the {type.__name__}'s name")
         midfix_tag = Tag('-midfix', '', ['-mid', '-contains', '-containing'], [midfix_arg])
 
         def query(cmd):

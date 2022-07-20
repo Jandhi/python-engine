@@ -1,5 +1,6 @@
 from console.command.argument_container import ArgumentContainer
 from console.command.scopes import GLOBAL
+from console.palette import Palette
 from objects.static_object import StaticObject
 
 class Command(StaticObject, ArgumentContainer):
@@ -18,6 +19,8 @@ class Command(StaticObject, ArgumentContainer):
         self.aliases = aliases or []
         self.tags = tags or []
         self.scope = scope
+        self.color = Palette.GREEN
+        self.called_as = None
     
     def fill(self, args):
         i = 0
@@ -41,3 +44,11 @@ class Command(StaticObject, ArgumentContainer):
         for tag in self.tags:
             if tag.name == name or name in tag.aliases:
                 return tag
+    
+    def clear(self):
+        for tag in self.tags:
+            tag.clear()
+        
+        self.called_as = None
+
+        return super().clear()

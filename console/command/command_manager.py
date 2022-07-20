@@ -1,3 +1,4 @@
+from os import system
 from console.colored_string import color
 from console.command.command import Command
 from console.command.scopes import ENGINE_MENU, GLOBAL
@@ -10,12 +11,15 @@ class CommandManager(StaticSingleton):
     def __init__(self) -> None:
         super().__init__()
         self.scopes = [GLOBAL, ENGINE_MENU]
+        self.clear_before_command = True
+        self.keep_next = False
 
     def get_commands(self) -> list[Command]:
         return Query(Command).filter(lambda cmd : cmd.scope in self.scopes).all()
 
     def process_input(self, input) -> None:
         args = self.split(input)
+        args_copy : list = args.copy()
 
         if len(args) == 0:
             return
@@ -34,8 +38,16 @@ class CommandManager(StaticSingleton):
             print(v)
             return command.clear()
         
+        if self.clear_before_command and not self.keep_next:
+            system('cls')
+            args_copy[0] = command.name
+
+            print(' '.join(args_copy))
+        
         command.execute(command)
         command.clear()
+
+        self.keep_next = False
 
     def find_command(self, name) -> Command:
         commands = self.get_commands()
