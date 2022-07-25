@@ -120,6 +120,9 @@ def get_objects(type):
 
     if not base_type in __object_pool:
         return []
+    
+    if __object_types[type].Schema.is_singleton:
+        return [__object_pool[base_type]]
 
     return list(__object_pool[base_type].values())
 

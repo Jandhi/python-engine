@@ -1,9 +1,10 @@
-from re import L
+
 from console.command.command import Command
 from console.command.argument import Argument, IntegerArgument
 from console.command.scopes import IN_GAME
 from console.command.tag import Tag
 from console.error import print_error
+from objects.game_object import find_object
 from objects.query import Query
 from settlers_of_valgard.logger.logging_level import LogDetailLevel
 from settlers_of_valgard.settlement import Settlement
@@ -14,7 +15,7 @@ log_detail_level_argument = Argument('detail level', 'the level of detail of log
 log_detail_tag = Tag('-detail', 'the level of detail of the logs', ['-d'], [log_detail_level_argument])
 log_day_argument = IntegerArgument('day', 'the day whose logs you want to see')
 def log_execute(cmd):
-    day = log_day_argument.value or Query(Settlement).first().day
+    day = log_day_argument.value or find_object(Settlement).day
     logger = Logger.instance
     level = None
 

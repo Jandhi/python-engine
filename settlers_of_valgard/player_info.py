@@ -1,6 +1,7 @@
 from objects.singleton import Singleton
 from settlers_of_valgard.rank import Freeman, RankChangeEvent
 from settlers_of_valgard.logger.logging_level import Normal
+
 class PlayerInfo(Singleton):
     def __init__(self) -> None:
         super().__init__()

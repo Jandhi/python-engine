@@ -1,6 +1,6 @@
 from settlers_of_valgard.building.prototype.harvester import Harvester
 from settlers_of_valgard.resource.bundle import Bundle
-from settlers_of_valgard.resource.resource import Meat
+from settlers_of_valgard.resource.food import Meat
 from settlers_of_valgard.settler.skill import Skill
 from settlers_of_valgard.colors import Colors
 from settlers_of_valgard.tech.technology import Technology

@@ -1,4 +1,3 @@
-import re
 from objects.construction import add_constructor, construct
 from objects.serialization import serialize
 
@@ -11,6 +10,9 @@ class Bundle:
             self.contents[resource] += amount
         else:
             self.contents[resource] = amount
+    
+    def remove(self, resource, amount):
+        return self.add(resource ,amount * -1)
 
     def __serialize__(self):
         return {'type' : 'bundle', 'data' : serialize(self.contents)}
@@ -62,6 +64,11 @@ class Bundle:
             return '-'
 
         return s[2:]
+    
+    def first(self):
+        for key in self.contents:
+            if self.contents[key] > 0:
+                return key
 
 def make_bundle(data):
     return Bundle(construct(data['data']))

@@ -4,13 +4,14 @@ from objects.singleton import Singleton
 from settlers_of_valgard.logger.logger import Logger
 from settlers_of_valgard.processes.day import DayEndEvent
 from settlers_of_valgard.resource.bundle import Bundle
+from settlers_of_valgard.settler.settler import Settler
 
 class Settlement(Singleton):
     def __init__(self) -> None:
         super().__init__()
 
         self.day = 0
-        self.settlers = []
+        self.settlers : list[Settler] = []
         self.buildings = []
         self.stockpile = Bundle()
         self.unlocked_blueprints = []
