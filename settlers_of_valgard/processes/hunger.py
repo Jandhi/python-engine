@@ -4,6 +4,7 @@ from settlers_of_valgard.logger.logger import log
 from settlers_of_valgard.logger.logging_level import Detailed, Everything
 from settlers_of_valgard.resource.bundle import Bundle
 from settlers_of_valgard.resource.food import EDIBLE
+from settlers_of_valgard.resource.resource import Resource
 from settlers_of_valgard.settler.need import Need
 from settlers_of_valgard.settler.settler import CreatedSettlerEvent, Settler
 from settlers_of_valgard.processes.day import DaytimeEndEvent
@@ -50,15 +51,17 @@ def tick_hunger(ev : DaytimeEndEvent):
     for settler in settlement.settlers:
         settler.needs[Hunger] += 1
 
-        while get_hunger_status(settler) >= Hungry:
-            resource = available_food.first()
+        while get_hunger_status(settler) <= Hungry:
+            resource : Resource = available_food.first()
 
             if resource is not None:
                 available_food.remove(resource, 1)
                 settlement.stockpile.remove(resource, 1)
+                settler.needs[Hunger] -= resource.tags[EDIBLE]
                 log(f'{settler} ate {resource}', Everything)
             else:
                 log(f'{settler} could not find food!', Detailed)
+                break
 
 
 DaytimeEndEvent.add_listener(tick_hunger)

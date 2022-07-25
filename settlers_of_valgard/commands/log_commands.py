@@ -15,7 +15,7 @@ log_detail_level_argument = Argument('detail level', 'the level of detail of log
 log_detail_tag = Tag('-detail', 'the level of detail of the logs', ['-d'], [log_detail_level_argument])
 log_day_argument = IntegerArgument('day', 'the day whose logs you want to see')
 def log_execute(cmd):
-    day = log_day_argument.value or find_object(Settlement).day
+    day = log_day_argument.value if log_day_argument.value is not None else find_object(Settlement).day
     logger = Logger.instance
     level = None
 
