@@ -10,8 +10,10 @@ from console.verification import get_verification
 from engine_settings import EngineSettings
 from objects.game_object import find_object
 
+force_quit_tag = Tag('-f', 'forces the game to quit')
 def Quit(cmd):
-    if get_verification("Do you really want to exit the game?"):
+    if force_quit_tag.used or get_verification("Do you really want to exit the game?"):
+        find_object(EngineSettings).set_running(False)
         find_object(EngineSettings).set_running(False)
         print("Goodbye!")
 
@@ -20,6 +22,7 @@ Command(
     "Quits the game",
     Quit,
     ['q', 'Quit', 'exit', 'end'],
+    tags=[force_quit_tag],
 )
 
 def display_tag(tag : Tag):
@@ -109,14 +112,3 @@ Command(
     clearmode,
     aliases=['cm', 'clmd']
 )
-
-def keep(cmd):
-    manager : CommandManager = find_object(CommandManager)
-    manager.keep_next = True
-
-Command(
-    'keep',
-    'keeps the text on screen for the next command',
-    keep,
-    aliases='keep'
-) # todo make work

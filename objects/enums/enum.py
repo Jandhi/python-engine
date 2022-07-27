@@ -35,5 +35,5 @@ class OrderedEnum(NamedEnum):
     def __ge__(self, other) -> bool:
         return self.value >= other.value
 
-def getEnum(value, type):
-    return Query(type).filter(lambda obj : obj.value == value).first()
+def get_enum(value, type):
+    return Query(type).filter(lambda obj : obj.value == value or (isinstance(value, str) and obj.name.lower() == value.lower())).first()

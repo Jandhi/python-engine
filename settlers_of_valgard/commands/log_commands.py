@@ -1,9 +1,12 @@
 
+from console.colored_string import color
 from console.command.command import Command
 from console.command.argument import Argument, IntegerArgument
 from console.command.scopes import IN_GAME
 from console.command.tag import Tag
 from console.error import print_error
+from console.palette import Palette
+from objects.enums.enum import get_enum
 from objects.game_object import find_object
 from objects.query import Query
 from settlers_of_valgard.logger.logging_level import LogDetailLevel
@@ -22,14 +25,18 @@ def log_execute(cmd):
     detail_arg = log_detail_level_argument.value
     if detail_arg is not None:
         level = Query(LogDetailLevel).filter(lambda lvl : lvl.name.lower() == detail_arg.lower()).first()
+
+        if level is None:
+            print_error(f'Detail level \"{color(detail_arg, Palette.INPUT_COLOR)}\" is not valid')
+            return
     else:
-        level = Query(PlayerInfo).first().logging_level
+        level = find_object(PlayerInfo).logging_level
 
     if day not in logger.contents:
         print_error(f'There is no log for day {day}')
     else:
         for msg, lvl in logger.contents[day]:
-            if lvl >= level:
+            if lvl <= level:
                 print(msg)
 
 log_command = Command(
@@ -37,5 +44,6 @@ log_command = Command(
     'displays the log of the current or a given day',
     log_execute,
     optional_arguments=[log_day_argument],
-    scope=IN_GAME
+    scope=IN_GAME,
+    tags=[log_detail_tag]
 )

@@ -1,3 +1,4 @@
+from multiprocessing.sharedctypes import Value
 from console.command.argument_container import ArgumentContainer
 from console.command.scopes import GLOBAL
 from console.palette import Palette
@@ -12,8 +13,7 @@ class Command(StaticObject, ArgumentContainer):
         scope = GLOBAL,
     ) -> None:
         StaticObject.__init__(self, id=name)
-        ArgumentContainer.__init__(self, arguments, optional_arguments)
-        self.name = name
+        ArgumentContainer.__init__(self, name, arguments, optional_arguments)
         self.execute = execute
         self.description = description
         self.aliases = aliases or []
@@ -25,6 +25,7 @@ class Command(StaticObject, ArgumentContainer):
     def fill(self, args):
         i = 0
         min = self.min_arguments()
+        max = self.max_arguments()
 
         while len(args) > 0:
             arg = args.pop(0)
@@ -37,8 +38,12 @@ class Command(StaticObject, ArgumentContainer):
 
             if i < len(self.arguments):
                 self.arguments[i].fill(arg)
+            elif i - min >= len(self.optional_arguments):
+                raise ValueError(f'Command {self} can only take up to {max} arguments')
             else:
                 self.optional_arguments[i - min].fill(arg)
+            
+            i += 1
     
     def find_tag(self, name):
         for tag in self.tags:

@@ -56,3 +56,6 @@ class Query():
     
     def all(self):
         return self.objects
+    
+    def count(self):
+        return len(self.objects)
