@@ -7,7 +7,6 @@ def serialize(object):
         return {serialize_field(key) : serialize(value) for key, value in object.items()}
     else:
         return str(object)
-    
 
 def serialize_field(object):
     if hasattr(object, '__serialize_field__'):

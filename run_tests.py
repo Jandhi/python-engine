@@ -13,6 +13,7 @@ import tests.test_save_and_load
 import tests.test_singleton
 import tests.test_serializeable
 import tests.test_static_objects
+import tests.test_nodes
 
 import settlers_of_valgard.tests.run_tests
 import settlers_of_valgard.rank

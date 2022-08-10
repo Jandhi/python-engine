@@ -1,0 +1,16 @@
+{
+    "thing": {
+        "0": {
+            "type": "thing",
+            "name": "a",
+            "children": [
+                {
+                    "type": "thing",
+                    "id": "1",
+                    "name": "b",
+                    "children": []
+                }
+            ]
+        }
+    }
+}

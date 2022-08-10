@@ -1,6 +1,7 @@
 from objects.game_object import GameObject
+from objects.node import Node
 
-class Family(GameObject):
+class Family(Node):
     def __init__(self, settlers = None) -> None:
         super().__init__()
 

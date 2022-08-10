@@ -1,5 +1,6 @@
 
 from objects.game_object import GameObject, get_static_pool
+from objects.node import Node
 from objects.singleton import Singleton
 
 class StaticObject(GameObject):
@@ -29,3 +30,12 @@ class StaticSingleton(Singleton):
 
     class Schema(Singleton.Schema):
         is_static = True
+
+class StaticNode(Node):
+    def __init__(self, id) -> None:
+        self.id = id
+        super().__init__()
+    
+    class Schema(Node.Schema):
+        is_static = True
+        numeric_id = False

@@ -1,22 +1,22 @@
 from console.command.query_command import QueryCommand
 from console.command.scopes import IN_GAME
 from console.command.tag import Tag
-from settlers_of_valgard.processes.hunger import Hunger, get_hunger_status
+from settlers_of_valgard.processes.hunger import HungerNode
 from settlers_of_valgard.settler.settler import Settler
 
 summary_tag = Tag('-summary', 'summarizes the hunger levels of settlers', aliases=['-sum', '-sm'])
 
-def display_hunger(settler : Settler):
-    return f'{settler} is {get_hunger_status(settler)}'
+def display_hunger(node : HungerNode):
+    return f'{node.parent} is {node.status()}'
 
-def list_hunger(settlers):
+def list_hunger(nodes : list[HungerNode]):
     s = ''
 
     if summary_tag.used:
         statuses = {}
 
-        for settler in settlers:
-            status = get_hunger_status(settler)
+        for node in nodes:
+            status = node.status()
             
             if status in statuses:
                 statuses[status] += 1
@@ -28,8 +28,8 @@ def list_hunger(settlers):
 
         s = s[:-1]
     else:
-        for settler in settlers:
-            s = f'{s}{settler}: {get_hunger_status(settler)}\n'
+        for node in nodes:
+            s = f'{s}{node.parent}: {node.status()}\n'
         
         s = s[:-1]
     
@@ -38,7 +38,7 @@ def list_hunger(settlers):
 HungerCommand = QueryCommand(
     'hunger',
     'lists the hunger of settlers',
-    Settler,
+    HungerNode,
     single_formatter=display_hunger,
     whole_list_formatter=list_hunger,
     scope=IN_GAME

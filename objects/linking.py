@@ -44,3 +44,5 @@ def link_objects():
         else:
             for obj in pool[type].values():
                 link(obj)
+    
+    __linked_objects = []

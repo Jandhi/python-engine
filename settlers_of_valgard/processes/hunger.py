@@ -1,5 +1,6 @@
 from console.colored_string import ColoredString
 from objects.game_object import find_object
+from objects.node import Node
 from objects.query import Query
 from settlers_of_valgard.colors import Colors
 from settlers_of_valgard.logger.logger import log, log_warning
@@ -24,19 +25,23 @@ Hungry = HungerStatus('Hungry', Colors.SUNSHINE, 2)
 Famished = HungerStatus('Famished', Colors.ORANGE, 1)
 Starving = HungerStatus('Starving', Colors.RED, 0)
 
-def get_hunger_status(settler : Settler):
-    if settler.needs[Hunger] < 1:
-        return Full
-    elif settler.needs[Hunger] < 2:
-        return Hungry
-    elif settler.needs[Hunger] < 3:
-        return Famished
-    else:
-        return Starving
+class HungerNode(Node):
+    def __init__(self) -> None:
+        super().__init__()
+        self.amount = 0
+
+    def status(self):
+        if self.amount < 1:
+            return Full
+        elif self.amount < 2:
+            return Hungry
+        elif self.amount < 3:
+            return Famished
+        else:
+            return Starving
 
 def add_hunger_need(ev : CreatedSettlerEvent):
-    if Hunger not in ev.settler.needs:
-        ev.settler.needs[Hunger] = 0
+    ev.settler.add_child(HungerNode())
 
 # adds hunger tracking to game
 CreatedSettlerEvent.add_listener(add_hunger_need)
@@ -51,21 +56,22 @@ def tick_hunger(ev : DaytimeEndEvent):
         if res.has_tag(EDIBLE):
             available_food.add(res, amt)
 
-    for settler in settlement.settlers:
+    for node in Query(HungerNode).all():
+        node : HungerNode
         fed = False
-        settler.needs[Hunger] += 1
+        node.amount += 1
 
-        while get_hunger_status(settler) <= Hungry:
+        while node.status() <= Hungry:
             resource : Resource = available_food.first()
 
             if resource is not None:
                 available_food.remove(resource, 1)
                 settlement.stockpile.remove(resource, 1)
-                settler.needs[Hunger] -= resource.tags[EDIBLE]
-                log(f'{settler} ate {resource}', Everything)
+                node.amount -= resource.tags[EDIBLE]
+                log(f'{node.parent} consumed {resource}', Everything)
                 fed = True
             else:
-                log_warning(ColoredString([settler, ' could not find food!']), Detailed)
+                log_warning(ColoredString([node.parent, ' could not find food!']), Detailed)
                 break
         
         if fed:
@@ -73,7 +79,7 @@ def tick_hunger(ev : DaytimeEndEvent):
     
     log(f'{fed_count} settlers were fed', Normal)
     
-    not_fed = Query(Settler).filter(lambda s : get_hunger_status(s) <= Hungry).count()
+    not_fed = Query(HungerNode).filter(lambda n : n.status() <= Hungry).count()
     if not_fed > 0:
         log_warning(f'{not_fed} settlers are hungry', Limited)
 

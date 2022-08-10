@@ -1,10 +1,30 @@
 {
-    "non_static": {
-        "test2": {
-            "type": "non_static",
-            "name": "test2",
-            "pointer": "-> type : static, id : test"
+    "thing": {
+        "0": {
+            "type": "thing",
+            "name": "a",
+            "children": [
+                {
+                    "type": "thing",
+                    "name": "b",
+                    "children": []
+                }
+            ]
+        },
+        "1": {
+            "type": "thing",
+            "name": "b",
+            "children": []
         }
+    },
+    "player_info": {
+        "type": "player_info",
+        "base_type": "player_info"
+    },
+    "logger": {
+        "type": "logger",
+        "instance": "None",
+        "base_type": "logger"
     },
     "settlement": {
         "type": "settlement",
@@ -18,6 +38,7 @@
             }
         },
         "unlocked_blueprints": [],
+        "discovered_technologies": [],
         "base_type": "settlement"
     }
 }

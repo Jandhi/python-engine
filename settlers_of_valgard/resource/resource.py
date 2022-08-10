@@ -1,10 +1,11 @@
 from objects.game_object import GameObject, find_object
-from objects.static_object import StaticObject
+from objects.node import Node
+from objects.static_object import StaticNode, StaticObject
 from settlers_of_valgard.colors import Colors
 from settlers_of_valgard.events.event import BlockableEvent
 from settlers_of_valgard.settlement import Settlement
 
-class Resource(StaticObject):
+class Resource(StaticNode):
     def __init__(self, name, color, tags = None) -> None:
         super().__init__(name)
         self.name = name

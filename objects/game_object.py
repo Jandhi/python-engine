@@ -12,6 +12,7 @@ __static_pool : dict[str, dict[id,]] = {}
 __object_types = {}
 __static_types = {}
 __deletion_pool = []
+__is_serializing = False
 
 LINK_STRING = '-> '
 
@@ -30,16 +31,15 @@ def get_object_pool():
     return __object_pool
 
 def delete_game_object(item):
-    item.deleted = True
-    __deletion_pool.append(item)
-
-def clear_deletion_pool():
-    global __deletion_pool
-
-    for item in __deletion_pool:
-        del item
+    type = get_base_type(item.type)
+    schema : GameObject.Schema = __object_types[item.type].Schema
     
-    __deletion_pool = []
+    item.deleted = True
+
+    if schema.is_singleton:
+        __object_pool.pop(type)
+    else:
+        __object_pool[type].pop(item.id)
 
 def initialize_type(type):
     __object_pool[type] = {}
@@ -180,16 +180,18 @@ class GameObject(ColoredObject, metaclass=GameObjectMeta):
     
     class Schema:
         first_fields = ['type']
-        do_not_serialize = ['id', 'deleted']
+        do_not_serialize = ['id', 'deleted', 'linked']
         do_not_load = ['deleted']
         constructors = {}
         is_singleton = False
         is_static = False
         class_fields = []
         numeric_id = True
+        is_node = False
 
     def __init__(self) -> None:
         self.deleted = False
+        self.linked = False
 
         if self.Schema.is_singleton:
             return add_object_singleton(self)
@@ -200,6 +202,9 @@ class GameObject(ColoredObject, metaclass=GameObjectMeta):
 
     def __serialize__(self) -> dict:
         data = {}
+
+        if self.deleted:
+            return None
 
         if self.Schema.first_fields:
             for field in self.Schema.first_fields:
@@ -215,8 +220,6 @@ class GameObject(ColoredObject, metaclass=GameObjectMeta):
             if name in self.Schema.class_fields or \
                 (self.Schema.is_singleton and not name.startswith('__') and not isinstance(value, Callable)):
                 data[name] = serialize_field(value)
-
-        delete_game_object(self)
         
         return data
 

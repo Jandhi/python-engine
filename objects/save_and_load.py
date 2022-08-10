@@ -2,6 +2,7 @@ import json
 from objects.game_object import add_static_objects, get_object_types, get_object_pool, remove_static_objects, squash_ids
 from objects.construction import construct
 from objects.linking import link_objects
+from objects.node import establish_all_parents, remove_non_root_nodes
 from objects.serialization import serialize
 
 def save_file(file_name):
@@ -19,6 +20,8 @@ def save_file(file_name):
         squash_ids(type)
 
     with open(f'{file_name}.json', 'w') as file:
+        remove_non_root_nodes()
+
         data = json.dumps(serialize(pool), indent=4)
         file.write(data)
 
@@ -38,3 +41,4 @@ def load_file(file_name):
     add_static_objects()
     
     link_objects()
+    establish_all_parents()

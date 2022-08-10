@@ -1,9 +1,9 @@
 from events.game_event import GameEvent
-from objects.game_object import GameObject
+from objects.node import Node
 from settlers_of_valgard.settler.skill import LevelDownEvent, SkillLevel, get_level, AddXPEvent, LevelUpEvent
 from settlers_of_valgard.colors import Colors
 
-class Settler(GameObject):
+class Settler(Node):
     def __init__(self, name) -> None:
         super().__init__()
 
@@ -12,7 +12,6 @@ class Settler(GameObject):
         self.family = None
         self.workplace = None
         self.xp = {}
-        self.needs = {}
 
         CreatedSettlerEvent(self).send()
     
@@ -41,4 +40,4 @@ class Settler(GameObject):
 class CreatedSettlerEvent(GameEvent):
     def __init__(self, settler) -> None:
         super().__init__()
-        self.settler = settler
+        self.settler : Settler = settler
