@@ -11,6 +11,8 @@ from colored import attr
 command_manager = CommandManager()
 engine_settings = find_object(EngineSettings)
 
+
+
 def start():
     main_loop()
 

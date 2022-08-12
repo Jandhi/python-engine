@@ -2,6 +2,16 @@ BITNOISE1 = 0x85297a4d
 BITNOISE2 = 0x68e31da4
 BITNOISE3 = 0x1859c4e9
 
+# hashes a string to a number
+def hash_string(string) -> int:
+    num = 0
+
+    for c in string:
+        num = munge(num, ord(c))
+    
+    return num
+
+
 # hashes together two numbers
 def munge(a, b) -> int:
     noise = b

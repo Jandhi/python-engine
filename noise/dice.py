@@ -41,7 +41,6 @@ class DicePool:
         
         return self
 
-
 def roll(seed : Seed, *dice):
     rolled = []
     counter = 0

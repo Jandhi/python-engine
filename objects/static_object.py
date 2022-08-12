@@ -18,7 +18,7 @@ def list_statics():
     pool = get_static_pool()
 
     for type in pool:
-        s = f'{type}: '
+        s = f'{type}:'
         
         for val in pool[type].values():
             s = f'{s} {val}'
