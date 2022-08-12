@@ -179,7 +179,7 @@ class GameObject(ColoredObject, metaclass=GameObjectMeta):
     base_type : str = None
     
     class Schema:
-        first_fields = ['type']
+        first_fields = ['name', 'type']
         do_not_serialize = ['id', 'deleted', 'linked']
         do_not_load = ['deleted']
         constructors = {}
@@ -208,7 +208,8 @@ class GameObject(ColoredObject, metaclass=GameObjectMeta):
 
         if self.Schema.first_fields:
             for field in self.Schema.first_fields:
-                data[field] = serialize_field(getattr(self, field))
+                if getattr(self, field) is not None:
+                    data[field] = serialize_field(getattr(self, field))
 
         for name, value in self.__dict__.items():
             if name in data or name in self.Schema.do_not_serialize:
@@ -228,3 +229,7 @@ class GameObject(ColoredObject, metaclass=GameObjectMeta):
             return f'{LINK_STRING}type : {self.type}'
 
         return f'{LINK_STRING}type : {self.type}, id : {self.id}'
+    
+    def post_construction(self) -> None:
+        if not hasattr(self, 'name'):
+            self.__setattr__('name', None)

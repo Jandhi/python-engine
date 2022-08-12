@@ -42,7 +42,7 @@ def construct(data):
 
 def construct_game_object(cls, data):
     schema : GameObject.Schema = cls.Schema
-    obj = cls.__new__(cls)
+    obj : GameObject = cls.__new__(cls)
 
     for name, value in data.items():
         if name in schema.do_not_load:
@@ -56,4 +56,7 @@ def construct_game_object(cls, data):
         setattr(obj, name, constructed)
 
     GameObject.__init__(obj)
+
+    obj.post_construction()    
+    
     return obj

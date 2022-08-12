@@ -1,20 +1,18 @@
 {
     "thing": {
         "0": {
-            "type": "thing",
             "name": "a",
+            "type": "thing",
             "children": [
                 {
-                    "type": "thing",
                     "name": "b",
-                    "children": []
+                    "type": "thing"
                 }
             ]
         },
         "1": {
-            "type": "thing",
             "name": "b",
-            "children": []
+            "type": "thing"
         }
     },
     "player_info": {

@@ -32,6 +32,8 @@ class StaticSingleton(Singleton):
         is_static = True
 
 class StaticNode(Node):
+    type = '__static_node'
+    
     def __init__(self, id) -> None:
         self.id = id
         super().__init__()

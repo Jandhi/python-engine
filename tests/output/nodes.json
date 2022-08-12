@@ -1,14 +1,13 @@
 {
     "thing": {
         "0": {
-            "type": "thing",
             "name": "a",
+            "type": "thing",
             "children": [
                 {
-                    "type": "thing",
-                    "id": "1",
                     "name": "b",
-                    "children": []
+                    "type": "thing",
+                    "id": "1"
                 }
             ]
         }

@@ -1,8 +1,8 @@
 {
     "quest": {
         "0": {
-            "type": "quest",
             "name": "Finding the Godsword",
+            "type": "quest",
             "color": "red"
         }
     }

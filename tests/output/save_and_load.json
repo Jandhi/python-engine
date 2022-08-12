@@ -13,24 +13,24 @@
         "base_type": "console_palette"
     },
     "favourite_npc": {
-        "type": "favourite_npc",
         "name": "favourite",
+        "type": "favourite_npc",
         "bonds": [
             "-> type : special_npc, id : 0"
         ]
     },
     "npc": {
         "0": {
-            "type": "special_npc",
             "name": "jan",
+            "type": "special_npc",
             "bonds": [
                 "-> type : special_npc, id : 1",
                 "-> type : favourite_npc"
             ]
         },
         "1": {
-            "type": "special_npc",
             "name": "nicole",
+            "type": "special_npc",
             "bonds": [
                 "-> type : special_npc, id : 0"
             ]

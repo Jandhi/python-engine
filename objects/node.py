@@ -53,13 +53,21 @@ class Node(GameObject):
     
     def __serialize__(self) -> dict:
         dict = super().__serialize__()
-        dict['children'] = [node.__serialize__() for node in self.children]
+
+        if len(self.children) > 0:
+            dict['children'] = [node.__serialize__() for node in self.children]
 
         # root nodes don't need ids
         if self.parent is None:
             dict.pop('id')
         
         return dict
+    
+    def post_construction(self) -> None:
+        if not hasattr(self, 'children'):
+            self.__setattr__('children', [])
+
+        return super().post_construction()
 
 def establish_parents(node : Node):
     for child in node.children:

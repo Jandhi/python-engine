@@ -1,6 +1,9 @@
 from objects.game_object import find_object, get_object_pool, get_object_types, LINK_STRING
 
 def link(obj):
+    if obj is None:
+        return obj
+
     if isinstance(obj, str):
         if obj.startswith(f'{LINK_STRING}type :'):
             id_index = obj.find(', id :')
