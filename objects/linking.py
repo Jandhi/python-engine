@@ -32,6 +32,9 @@ def link(obj):
     if isinstance(obj, int) or isinstance(obj, float):
         return obj
 
+    if hasattr(obj, '__link__'):
+        obj.__link__()
+
     keys = obj.__dict__.keys()
 
     for key in keys:

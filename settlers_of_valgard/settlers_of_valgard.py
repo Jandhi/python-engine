@@ -24,5 +24,6 @@ s.settlers = [
 
 s.settlers[2].add_xp(Hunting, 100)
 
-
 pass_day(0)
+
+

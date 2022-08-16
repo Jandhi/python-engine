@@ -1,2 +1,4 @@
 import settlers_of_valgard.tests.test_serialize_bundle
 import settlers_of_valgard.tests.test_resource_gain
+import settlers_of_valgard.tests.test_settlers
+import settlers_of_valgard.tests.test_map
