@@ -13,8 +13,8 @@ class Quest(GameObject):
 
 j = Quest('Finding the Godsword', 'red')
 
-save_file('test')
-load_file('test')
+save_file('tests/output/colored_names')
+load_file('tests/output/colored_names')
 
 j = find_object(Quest, 0)
 

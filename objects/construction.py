@@ -6,15 +6,19 @@ def add_constructor(name, constructor):
     __constructors[name] = constructor
 
 def construct(data):
+    # numbers
+    if isinstance(data, int) or isinstance(data, float):
+        return data
+
     # string
     if isinstance(data, str):
         try:
-            return float(data)
+            return int(data)
         except ValueError:
             pass
 
         try:
-            return int(data)
+            return float(data)
         except ValueError:
             pass
 

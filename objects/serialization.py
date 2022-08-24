@@ -5,6 +5,8 @@ def serialize(object):
         return [serialize(item) for item in object]
     elif isinstance(object, dict):
         return {serialize_field(key) : serialize(value) for key, value in object.items()}
+    elif isinstance(object, int) or isinstance(object, float):
+        return object
     else:
         return str(object)
 

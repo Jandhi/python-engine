@@ -7,10 +7,13 @@ from objects.node import Node
 # 10 - settlers
 
 class MapEntity(Node):
-    def __init__(self, is_collision, pos) -> None:
+    def __init__(self, is_collision, pos, symbol, color) -> None:
         super().__init__()
         self.is_collision = is_collision
         self.x, self.y, self.z = pos
+        self.symbol = symbol
+        self.color = color
+        self.map = None
     
     @property
     def pos(self):
@@ -19,6 +22,10 @@ class MapEntity(Node):
     @pos.setter
     def pos(self, value):
         self.x, self.y, self.z = value
+
+    def load_into(self, map):
+        self.map = map
+        self.insert_into(map)
     
     def insert_into(self, map):
         map.tiles[self.x][self.y].entities.append(self)
@@ -31,3 +38,9 @@ class MapEntity(Node):
         self.x = x
         self.y = y
         self.insert_into(map)
+    
+    def get_symbol(self, tile):
+        return self.symbol
+    
+    def get_color(self, tile):
+        return self.color

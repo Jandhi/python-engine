@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "c1ec1d41cf4e2747aa9bf55578d0f24e86106a94b00a71360b4d732b34123bd5"
+            "sha256": "4f8a9e5d3922e59fe3a95f3738f07e5ced2f7e23056a6c0fcd457e7f80ae9d6a"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -30,6 +30,13 @@
             ],
             "index": "pypi",
             "version": "==1.4.3"
+        },
+        "commonmark": {
+            "hashes": [
+                "sha256:452f9dc859be7f06631ddcb328b6919c67984aca654e5fefb3914d54691aed60",
+                "sha256:da2f38c92590f83de410ba1a3cbceafbc74fee9def35f9251ba9a971d6d66fd9"
+            ],
+            "version": "==0.9.1"
         },
         "future": {
             "hashes": [
@@ -109,6 +116,14 @@
             ],
             "version": "==0.8.post1"
         },
+        "pygments": {
+            "hashes": [
+                "sha256:56a8508ae95f98e2b9bdf93a6be5ae3f7d8af858b43e02c5a2ff083726be40c1",
+                "sha256:f643f331ab57ba3c9d89212ee4a2dabc6e94f117cf4eefde99a0574720d14c42"
+            ],
+            "markers": "python_version >= '3.6'",
+            "version": "==2.13.0"
+        },
         "pywin32": {
             "hashes": [
                 "sha256:25746d841201fd9f96b648a248f731c1dec851c9a08b8e33da8b56148e4c65cc",
@@ -128,6 +143,22 @@
             ],
             "markers": "sys_platform == 'win32'",
             "version": "==304"
+        },
+        "rich": {
+            "hashes": [
+                "sha256:2eb4e6894cde1e017976d2975ac210ef515d7548bc595ba20e195fb9628acdeb",
+                "sha256:63a5c5ce3673d3d5fbbf23cd87e11ab84b6b451436f1b7f19ec54b6bc36ed7ca"
+            ],
+            "markers": "python_version < '4.0' and python_full_version >= '3.6.3'",
+            "version": "==12.5.1"
+        },
+        "textual": {
+            "hashes": [
+                "sha256:59110935418c597c1c50876edfd6799ad5b59d51a91ca6744fc45e36eb89638e",
+                "sha256:b2883f8ed291de58b9aa73de6d24bbaae0174687487458a4eb2a7c188a2acf23"
+            ],
+            "index": "pypi",
+            "version": "==0.1.18"
         },
         "wcwidth": {
             "hashes": [

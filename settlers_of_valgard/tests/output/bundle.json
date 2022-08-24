@@ -1,20 +1,4 @@
 {
-    "thing": {
-        "0": {
-            "name": "a",
-            "type": "thing",
-            "children": [
-                {
-                    "name": "b",
-                    "type": "thing"
-                }
-            ]
-        },
-        "1": {
-            "name": "b",
-            "type": "thing"
-        }
-    },
     "player_info": {
         "type": "player_info",
         "base_type": "player_info"
@@ -26,13 +10,13 @@
     },
     "settlement": {
         "type": "settlement",
-        "day": "0",
+        "day": 0,
         "settlers": [],
         "buildings": [],
         "stockpile": {
             "type": "bundle",
             "data": {
-                "-> type : resource, id : Wood": "3"
+                "-> type : resource, id : Wood": 3
             }
         },
         "unlocked_blueprints": [],

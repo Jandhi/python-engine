@@ -31,6 +31,8 @@ def get_object_pool():
     return __object_pool
 
 def delete_game_object(item):
+    item.on_delete()
+
     type = get_base_type(item.type)
     schema : GameObject.Schema = __object_types[item.type].Schema
     
@@ -233,3 +235,6 @@ class GameObject(ColoredObject, metaclass=GameObjectMeta):
     def post_construction(self) -> None:
         if not hasattr(self, 'name'):
             self.__setattr__('name', None)
+    
+    def on_delete(self) -> None:
+        return

@@ -13,6 +13,12 @@ class Node(GameObject):
 
         self.children : list[Node] = []
         self.parent : Node = None
+
+    def on_added(self, parent) -> None:
+        return
+    
+    def on_removed(self, parent) -> None:
+        return
     
     def has_child(self, type_name):
         type_name = validate_type_name(type_name)
@@ -31,10 +37,14 @@ class Node(GameObject):
     def add_child(self, child):
         child.parent = self
         self.children.append(child)
+
+        child.on_added(self)
     
     def remove_child(self, child):
         child.parent = None
         self.children.remove(child)
+
+        child.on_removed(self)
     
     def delete_child(self, child):
         self.children.remove(child)

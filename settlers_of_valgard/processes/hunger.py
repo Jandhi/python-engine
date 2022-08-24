@@ -8,13 +8,10 @@ from settlers_of_valgard.logger.logging_level import Detailed, Everything, Limit
 from settlers_of_valgard.resource.bundle import Bundle
 from settlers_of_valgard.resource.food import EDIBLE
 from settlers_of_valgard.resource.resource import Resource
-from settlers_of_valgard.settler.need import Need
 from settlers_of_valgard.settler.settler import CreatedSettlerEvent, Settler
 from settlers_of_valgard.processes.day import DaytimeEndEvent
 from settlers_of_valgard.settlement import Settlement
 from objects.enums.enum import OrderedEnum
-
-Hunger = Need('Hunger', Colors.FUR)
 
 class HungerStatus(OrderedEnum):
     def __init__(self, name, color, value) -> None:

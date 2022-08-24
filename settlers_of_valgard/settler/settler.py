@@ -2,6 +2,7 @@ from events.game_event import GameEvent
 from objects.node import Node
 from settlers_of_valgard.settler.skill import LevelDownEvent, SkillLevel, get_level, AddXPEvent, LevelUpEvent
 from settlers_of_valgard.colors import Colors
+from settlers_of_valgard.map.map_entity import MapEntity
 
 class Settler(Node):
     def __init__(self, name) -> None:
@@ -12,6 +13,8 @@ class Settler(Node):
         self.family = None
         self.workplace = None
         self.xp = {}
+
+        self.add_child(MapEntity(True, (0, 0, 0), '@', self.color))
 
         CreatedSettlerEvent(self).send()
     
