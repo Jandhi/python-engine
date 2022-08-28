@@ -32,9 +32,6 @@ def link(obj):
     if isinstance(obj, int) or isinstance(obj, float):
         return obj
 
-    if hasattr(obj, '__link__'):
-        obj.__link__()
-
     keys = obj.__dict__.keys()
 
     for key in keys:
@@ -47,8 +44,14 @@ def link_objects():
     for type in pool:
         if get_object_types()[type].Schema.is_singleton:
             link(pool[type])
+
+            if hasattr(pool[type], '__link__'):
+                pool[type].__link__()   
         else:
             for obj in pool[type].values():
                 link(obj)
+                
+                if hasattr(obj, '__link__'):
+                    obj.__link__()          
     
     __linked_objects = []

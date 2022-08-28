@@ -2,8 +2,8 @@ from objects.construction import add_constructor, construct
 from objects.serialization import serialize
 
 class Bundle:
-    def __init__(self, contents = None) -> None:
-        self.contents : list = contents or []
+    def __init__(self, *contents) -> None:
+        self.contents : list = list(contents) or []
     
     def add(self, resource):
         for other in self.contents:
@@ -45,7 +45,7 @@ class Bundle:
                 self.contents.remove(res)
                 b_contents.append(res)
 
-        return Bundle(b_contents)
+        return Bundle(*b_contents)
 
     def count(self, condition):
         amt = 0
@@ -60,7 +60,7 @@ class Bundle:
         return {'type' : 'bundle', 'contents' : serialize(self.contents)}
     
     def __add__(self, other):
-        return Bundle(self.contents.copy()).__iadd__(other)
+        return Bundle(*self.contents.copy()).__iadd__(other)
     
     def __iadd__(self, other):
         if isinstance(other, Bundle):
@@ -73,12 +73,12 @@ class Bundle:
         return self
     
     def __mul__(self, other):
-        contents = self.contents.copy()
+        contents = [res.copy() for res in self.contents]
 
         for res in contents:
             res.amount *= other
         
-        return Bundle(contents)
+        return Bundle(*contents)
 
     def __rmul__(self, other):
         return self.__mul__(other)
@@ -90,7 +90,7 @@ class Bundle:
         return self
 
     def copy(self):
-        return Bundle(self.contents.copy())
+        return Bundle(*self.contents.copy())
     
     def __str__(self) -> str:
         s = ''
@@ -109,6 +109,6 @@ class Bundle:
                 return key
 
 def make_bundle(data):
-    return Bundle(construct(data['contents']))
+    return Bundle(*construct(data['contents']))
 
 add_constructor('bundle', make_bundle)

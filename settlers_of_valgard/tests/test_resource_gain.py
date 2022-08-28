@@ -10,7 +10,7 @@ def modify(ev : ResourceGainEvent):
 
 add_listener(ResourceGainEvent, modify)
 
-b = Bundle({Wood : 3})
+b = Bundle(Wood.create(3))
 send_to_stockpile(b)
 
-assert(s.stockpile.contents[Wood] == 6)
+assert(s.stockpile.count(lambda res : res.resource == Wood) == 6)

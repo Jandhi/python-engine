@@ -19,7 +19,7 @@ class TilePrototype(StaticObject):
     def color_at(self, x, y) -> int:
         return choose(seed() * x * y, self.colors) 
 
-Empty = TilePrototype('Empty', '.', ['.', '.', ','], [Colors.LEMON, Colors.OCEAN, Colors.GRASS])
+Empty = TilePrototype('Empty', 0, ['.', '.', ','], [Colors.LEMON, Colors.OCEAN, Colors.GRASS])
 
 class Tile(ColoredObject):
     def __init__(self, prototype : TilePrototype, x, y):
