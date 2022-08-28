@@ -7,7 +7,7 @@ from settlers_of_valgard.logger.logger import log, log_warning
 from settlers_of_valgard.logger.logging_level import Detailed, Everything, Limited, Normal
 from settlers_of_valgard.resource.bundle import Bundle
 from settlers_of_valgard.resource.food import EDIBLE
-from settlers_of_valgard.resource.resource import Resource
+from settlers_of_valgard.resource.resource import ResourceType
 from settlers_of_valgard.settler.settler import CreatedSettlerEvent, Settler
 from settlers_of_valgard.processes.day import DaytimeEndEvent
 from settlers_of_valgard.settlement import Settlement
@@ -59,7 +59,7 @@ def tick_hunger(ev : DaytimeEndEvent):
         node.amount += 1
 
         while node.status() <= Hungry:
-            resource : Resource = available_food.first()
+            resource : ResourceType = available_food.first()
 
             if resource is not None:
                 available_food.remove(resource, 1)

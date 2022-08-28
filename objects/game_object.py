@@ -190,10 +190,14 @@ class GameObject(ColoredObject, metaclass=GameObjectMeta):
         class_fields = []
         numeric_id = True
         is_node = False
+        do_not_pool = False
 
     def __init__(self) -> None:
         self.deleted = False
         self.linked = False
+
+        if self.Schema.do_not_pool:
+            return
 
         if self.Schema.is_singleton:
             return add_object_singleton(self)
@@ -227,6 +231,9 @@ class GameObject(ColoredObject, metaclass=GameObjectMeta):
         return data
 
     def __serialize_field__(self) -> str:
+        if self.Schema.do_not_pool:
+            return self.__serialize__()
+
         if self.Schema.is_singleton:
             return f'{LINK_STRING}type : {self.type}'
 

@@ -15,6 +15,7 @@ class MapWidget(Widget, can_focus=True):
         super().__init__(name)
         self.map = map
         self.pointer = (self.map.width // 2, self.map.height // 2)
+        self.show_pointer = True
 
     def render(self) -> Panel:
         content = ''
@@ -25,7 +26,7 @@ class MapWidget(Widget, can_focus=True):
                 map_x = x + px - self.size.width // 2
                 map_y = y + py - self.size.height // 2
 
-                if map_x == px and map_y == py:
+                if self.show_pointer and map_x == px and map_y == py:
                     content = f'{content}[red]X[/red]'
                 elif 0 <= map_x < self.map.width and 0 <= map_y < self.map.height:
                     content = f'{content}{self.map.tiles[map_x][map_y]}'

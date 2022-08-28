@@ -20,17 +20,20 @@ class Node(GameObject):
     def on_removed(self, parent) -> None:
         return
     
+    def get_children(self):
+        return self.children 
+    
     def has_child(self, type_name):
         type_name = validate_type_name(type_name)
 
-        for child in self.children:
+        for child in self.get_children():
             if child.type == type_name:
                 return True
 
-    def get_child(self, type_name):
+    def find_child(self, type_name):
         type_name = validate_type_name(type_name)
 
-        for child in self.children:
+        for child in self.get_children():
             if child.type == type_name:
                 return child
 
@@ -51,11 +54,11 @@ class Node(GameObject):
         self.children.remove(child)
         delete_game_object(child)
     
-    def get_children(self, type_name):
+    def find_children(self, type_name):
         list = []
         type_name = validate_type_name(type_name)
 
-        for child in self.children:
+        for child in self.get_children():
             if child.type == type_name:
                 list.append(child)
 
@@ -68,7 +71,7 @@ class Node(GameObject):
             dict['children'] = [node.__serialize__() for node in self.children]
 
         # root nodes don't need ids
-        if self.parent is None:
+        if 'id' in dict and self.parent is None:
             dict.pop('id')
         
         return dict
@@ -78,6 +81,17 @@ class Node(GameObject):
             self.__setattr__('children', [])
 
         return super().post_construction()
+
+    def copy_self(self):
+        return Node()
+    
+    def copy(self):
+        node = self.copy_self()
+
+        for child in self.children:
+            node.add_child(child.copy())
+        
+        return node
 
 def establish_parents(node : Node):
     for child in node.children:
@@ -123,3 +137,16 @@ def remove_non_root_nodes():
     
     for type, id in objs_to_rmv:
         pool[type].pop(id)
+
+class FlyweightNode(Node):
+    type = '__fly_weight_node'
+
+    def __init__(self, prototype : Node) -> None:
+        super().__init__()
+        self.prototype = prototype
+
+    def get_children(self):
+        return super().get_children() + self.prototype.get_children()
+    
+    def copy_self(self):
+        return FlyweightNode(self.prototype)

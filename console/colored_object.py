@@ -20,7 +20,8 @@ class ColoredObject:
         return self.name
     
     def __str__(self) -> str:
-        cname = name_table[self.get_color()]
+        color = self.get_color()
+        cname = name_table[color] if isinstance(color, int) else color
         return f'[{cname}]{self.get_name()}[/{cname}]'
         
         return f'{fg(self.get_color()) if self.color else ""}{self.get_name()}{attr(0)}'

@@ -53,28 +53,29 @@ class SettlersOfValgardApp(App):
         self.map_widget = map_widget
         await self.view.dock(self.map_widget)
 
-        self.lock = Lock()
-        self.started = False
+        self.paused = True
 
-        def loop():
-            while True:
+
+        # tick loop
+        def tick_loop():
+            if not self.paused:
                 tick()
-                sleep(0.2)
-            
-        self.thread = Thread(target=loop)
-
+        self.set_interval(0.1, tick_loop)
+        # refresh loop
         self.set_interval(0.05, self.map_widget.refresh)
+        # pointer loop
+        def pointer_loop():
+            self.map_widget.show_pointer = not self.map_widget.show_pointer
+        self.set_interval(0.6, pointer_loop)
     
     def on_key(self, event : events.Key):
-        if not self.started:
-            self.thread.start()    
-            self.started = True
-
         if not self.map_widget.has_focus:
             return
 
         px, py = self.map_widget.pointer
 
+        if event.key == ' ':
+            self.paused = not self.paused
         if event.key == 'up':
             self.map_widget.pointer = (px, max(py - 1, 0))
         if event.key == 'down':
@@ -84,8 +85,6 @@ class SettlersOfValgardApp(App):
         if event.key == 'right':
             self.map_widget.pointer = (min(px + 1, self.map_widget.map.width - 1), py)
 
-        self.lock.acquire()
         self.map_widget.refresh()
-        self.lock.release()
     
 SettlersOfValgardApp.run()

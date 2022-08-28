@@ -29,5 +29,4 @@ def tick():
         ticked : Ticked
         ticked.on_tick(ticknum)
 
-    
     ticknum += 1

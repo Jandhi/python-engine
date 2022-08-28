@@ -26,5 +26,5 @@ load_file('tests/output/nodes')
 
 assert(find_object(Thing, a_id) is not None)
 assert(find_object(Thing, b_id) is not None)
-assert(a.get_child(Thing) is not None)
+assert(a.find_child(Thing) is not None)
 assert(b.parent is a)

@@ -23,15 +23,19 @@ class MapEntity(Node):
     def pos(self, value):
         self.x, self.y, self.z = value
 
+    @property
+    def tile(self):
+        return self.map.tiles[self.x][self.y]
+
     def load_into(self, map):
         self.map = map
         self.insert_into(map)
     
     def insert_into(self, map):
-        map.tiles[self.x][self.y].entities.append(self)
+        self.tile.entities.append(self)
     
     def remove_from(self, map):
-        map.tiles[self.x][self.y].entities.remove(self)
+        self.tile.entities.remove(self)
     
     def move_to(self, map, x, y):
         self.remove_from(map)

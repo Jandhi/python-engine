@@ -4,9 +4,12 @@ from settlers_of_valgard.resource.resource import Wood
 from settlers_of_valgard.settlement import Settlement
 
 s = Settlement()
-s.stockpile += (Wood, 3)
+s.stockpile += Wood * 3
+s.stockpile += Wood * 3
 
 save_file('settlers_of_valgard/tests/output/bundle')
 load_file('settlers_of_valgard/tests/output/bundle')
 
-assert(find_object(Settlement).stockpile.contents[Wood] == 3)
+stockpile = find_object(Settlement).stockpile
+
+assert(stockpile.count(lambda res : res.resource == Wood) == 6)

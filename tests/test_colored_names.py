@@ -18,4 +18,4 @@ load_file('tests/output/colored_names')
 
 j = find_object(Quest, 0)
 
-assert(f'{j} is my quest' == f'{fg("red")}Finding the Godsword{attr(0)} is my quest')
+assert(f'{j} is my quest' == f'[red]Finding the Godsword[/red] is my quest')

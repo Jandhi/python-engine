@@ -15,9 +15,13 @@
         "buildings": [],
         "stockpile": {
             "type": "bundle",
-            "data": {
-                "-> type : resource, id : Wood": 3
-            }
+            "contents": [
+                {
+                    "type": "resource",
+                    "resource": "-> type : resource_type, id : Wood",
+                    "amount": 6
+                }
+            ]
         },
         "unlocked_blueprints": [],
         "discovered_technologies": [],

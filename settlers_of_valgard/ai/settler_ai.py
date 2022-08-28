@@ -10,7 +10,7 @@ class SettlerAI(AI):
         self.map_entity : MapEntity = None
 
     def on_added(self, parent : Node) -> None:
-        self.map_entity = parent.get_child(MapEntity)
+        self.map_entity = parent.find_child(MapEntity)
     
     def on_removed(self, parent) -> None:
         self.map_entity = None
