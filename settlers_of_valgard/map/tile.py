@@ -40,7 +40,7 @@ class Tile(ColoredObject):
         
         return entity
 
-    def get_name(self) -> str:
+    def get_title(self) -> str:
         if len(self.entities) > 0:
             return self.get_top_entity().get_symbol(self)
 

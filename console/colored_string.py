@@ -25,7 +25,7 @@ class ColoredString:
 
         for part in self.contents:
             if isinstance(part, ColoredObject):
-                length += len(part.get_name())
+                length += len(part.get_title())
             else:
                 length += len(part)
         
@@ -37,7 +37,7 @@ class ColoredString:
 
         for part in self.contents:
             if isinstance(part, ColoredObject):
-                contents.append(ColoredString([part.get_name()], part.get_color()))
+                contents.append(ColoredString([part.get_title()], part.get_color()))
             else:
                 contents.append(part)
         

@@ -1,12 +1,12 @@
 from objects.game_object import GameObject, find_object
-from objects.node import Node
+from objects.node import FlyweightNode, Node
 from objects.static_object import StaticNode
 from objects.util import compare_without_ids
 from settlers_of_valgard.colors import Colors
 from settlers_of_valgard.events.event import BlockableEvent
 from settlers_of_valgard.settlement import Settlement
 
-class ResourceType(StaticNode):
+class ResourcePrototype(StaticNode):
     def __init__(self, name, color, children : list[Node] = None, on_create = None) -> None:
         super().__init__(name)
         self.name = name
@@ -36,13 +36,12 @@ class ResourceType(StaticNode):
         assert(isinstance(num, int))
         return self.create(num)
 
-class Resource(Node):
-    class Schema(Node.Schema):
+class Resource(FlyweightNode):
+    class Schema(FlyweightNode.Schema):
         do_not_pool = True
 
-    def __init__(self, resource : ResourceType, amount : int) -> None:
-        super().__init__()
-        self.resource = resource
+    def __init__(self, prototype : ResourcePrototype, amount : int) -> None:
+        super().__init__(prototype)
         self.amount = amount
     
     def is_stackable(self, other: object) -> bool:
@@ -52,7 +51,7 @@ class Resource(Node):
         return super().__eq__(other)
     
     def copy_self(self):
-        return Resource(self.type, self.amount)
+        return Resource(self.prototype, self.amount)
     
     def with_amount(self, amt):
         self.amount = amt
@@ -67,7 +66,7 @@ class Resource(Node):
         self.amount -= amt
         return cp
 
-Wood = ResourceType('Wood', Colors.WOOD)
+Wood = ResourcePrototype('Wood', Colors.WOOD)
 
 def send_to_stockpile(bundle):
     if ResourceGainEvent(bundle).send_is_success():

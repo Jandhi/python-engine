@@ -1,12 +1,14 @@
 {
     "player_info": {
         "type": "player_info",
-        "base_type": "player_info"
+        "base_type": "player_info",
+        "name": "None"
     },
     "logger": {
         "type": "logger",
         "instance": "None",
-        "base_type": "logger"
+        "base_type": "logger",
+        "name": "None"
     },
     "settlement": {
         "type": "settlement",
@@ -32,8 +34,6 @@
             "name": "jan",
             "type": "settler",
             "color": 10,
-            "family": "None",
-            "workplace": "None",
             "xp": {},
             "children": [
                 {
@@ -53,8 +53,6 @@
             "name": "nicole",
             "type": "settler",
             "color": 10,
-            "family": "None",
-            "workplace": "None",
             "xp": {},
             "children": [
                 {

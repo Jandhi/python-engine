@@ -1,24 +1,33 @@
 from objects.game_object import GameObject
 from objects.node import Node
+from settlers_of_valgard.settler.settler import CreatedSettlerEvent, Settler
+
+class FamilyMember(Node):
+    def __init__(self, family) -> None:
+        super().__init__()
+        self._family : Family = family
+
+    @property
+    def family(self):
+        return self._family
+
+    @property.setter
+    def family(self, value):
+        if self._family is not None:
+            self._family.members.remove(self)
+        
+        self._family : Family = value
+        self._family.members.append(self)
+
 
 class Family(Node):
-    def __init__(self, settlers = None) -> None:
+    def __init__(self, members = None) -> None:
         super().__init__()
 
-        self.settlers : list = settlers or []
         self.residence = None
+        self.members : list = members or []
 
-        for settler in self.settlers:
-            settler.family = self
-    
-    def add_settler(self, settler):
-        if settler.family is not None:
-            settler.family.remove_settler(settler)
+def add_family_node(ev : CreatedSettlerEvent):
+    ev.settler.add_child(FamilyMember(None))
 
-        settler.family = self
-        self.settlers.append(settler)
-    
-    def remove_settler(self, settler):
-        if settler in self.settlers:
-            settler.family = None
-            self.settlers.remove(settler)
+CreatedSettlerEvent.add_listener(add_family_node)

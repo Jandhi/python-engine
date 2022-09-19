@@ -10,8 +10,6 @@ class Settler(Node):
 
         self.name = name
         self.color = Colors.GRASS
-        self.family = None
-        self.workplace = None
         self.xp = {}
 
         self.add_child(MapEntity(True, (0, 0, 0), '@', self.color))

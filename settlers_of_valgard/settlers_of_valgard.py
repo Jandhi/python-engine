@@ -1,7 +1,11 @@
 import asyncio
 from faulthandler import is_enabled
+from logging import PlaceHolder
 from threading import Thread, Lock
 from time import sleep
+from settlers_of_valgard.ui.multi_page_menu import MultiPageMenu
+
+from settlers_of_valgard.ui.action_widget import ActionWidget
 
 from .map.map import Map
 
@@ -19,18 +23,24 @@ from settlers_of_valgard.processes.hunting.hunting import Hunting
 import settlers_of_valgard.commands.hunger_commands 
 import settlers_of_valgard.commands.log_commands
 from settlers_of_valgard.ui.map.map_widget import MapWidget
+from settlers_of_valgard.menu import Menu, MenuAction
+
+from settlers_of_valgard.ui.settlement_menu import settlement_menu
+import settlers_of_valgard.ui.settlers_menu
+
 from objects.query import Query
 from map.ticked import Ticked, tick
 
 from textual.app import App
 import textual.events as events
+from textual.widgets import ScrollView, Placeholder
 
 
 s = Settlement()
 PlayerInfo()
 Logger()
 
-s.stockpile.add(Meat, 2)
+s.stockpile.add(Meat.create(2))
 
 s.settlers = [
     Settler('Bjorn'),
@@ -50,41 +60,29 @@ map_widget = MapWidget(map)
 
 class SettlersOfValgardApp(App):
     async def on_mount(self) -> None:
+        Menu.app = self
         self.map_widget = map_widget
-        await self.view.dock(self.map_widget)
 
-        self.paused = True
+        self.action_widget = ActionWidget()
+        self.log_widget = ScrollView('test')
 
+        #await self.view.dock(self.action_widget, edge="right")
+        await self.view.dock(self.log_widget, self.action_widget, edge="right")
 
-        # tick loop
-        def tick_loop():
-            if not self.paused:
-                tick()
-        self.set_interval(0.1, tick_loop)
-        # refresh loop
-        self.set_interval(0.05, self.map_widget.refresh)
-        # pointer loop
-        def pointer_loop():
-            self.map_widget.show_pointer = not self.map_widget.show_pointer
-        self.set_interval(0.6, pointer_loop)
+        self.refresh()
+        self.action_widget.refresh()
+        self.log_widget.refresh()
+
+        settlement_menu.load()
     
     def on_key(self, event : events.Key):
-        if not self.map_widget.has_focus:
-            return
-
-        px, py = self.map_widget.pointer
-
-        if event.key == ' ':
-            self.paused = not self.paused
-        if event.key == 'up':
-            self.map_widget.pointer = (px, max(py - 1, 0))
-        if event.key == 'down':
-            self.map_widget.pointer = (px, min(py + 1, self.map_widget.map.height - 1))
-        if event.key == 'left':
-            self.map_widget.pointer = (max(px - 1, 0), py)
-        if event.key == 'right':
-            self.map_widget.pointer = (min(px + 1, self.map_widget.map.width - 1), py)
-
-        self.map_widget.refresh()
+        if self.action_widget.callbacks is not None and event.key in self.action_widget.callbacks:
+            self.action_widget.callbacks[event.key]()
+            self.action_widget.refresh()
+            self.log_widget.refresh()
+    
+    def load(self, action_group : Menu):
+        self.action_widget.action_group = action_group
+        self.action_widget.refresh()
     
 SettlersOfValgardApp.run()

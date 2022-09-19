@@ -214,7 +214,7 @@ class GameObject(ColoredObject, metaclass=GameObjectMeta):
 
         if self.Schema.first_fields:
             for field in self.Schema.first_fields:
-                if getattr(self, field) is not None:
+                if hasattr(self, field) and getattr(self, field) is not None:
                     data[field] = serialize_field(getattr(self, field))
 
         for name, value in self.__dict__.items():

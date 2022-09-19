@@ -1,13 +1,18 @@
-from settlers_of_valgard.resource.resource import ResourceType
+from objects.node import Node
+from settlers_of_valgard.resource.resource import ResourcePrototype
 from settlers_of_valgard.colors import Colors
 
-EDIBLE = 'EDIBLE'
+class EdibleNode(Node):
+    def __init__(self, satiation=1) -> None:
+        super().__init__()
+        self.satiation = satiation
 
-Meat = ResourceType(
+    def copy_self(self):
+        return EdibleNode(self.satiation)
+
+Meat = ResourcePrototype(
     'Meat', 
-    Colors.SALMON, 
-    {
-        EDIBLE : 1
-    }
+    Colors.SALMON,
+    [EdibleNode(2)],
 )
 

@@ -35,7 +35,7 @@ class MapWidget(Widget, can_focus=True):
 
             content = f'{content}\n'
 
-        return Panel(content)
+        return content
     
     async def on_focus(self, event: events.Focus) -> None:
         self.has_focus = True

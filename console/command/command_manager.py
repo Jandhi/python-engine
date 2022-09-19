@@ -40,7 +40,7 @@ class CommandManager(StaticSingleton):
         
         if self.clear_before_command and not self.keep_next:
             system('cls')
-            args_copy[0] = command.name
+            args_copy[0] = command.text
 
             print(' '.join(args_copy))
         
@@ -53,7 +53,7 @@ class CommandManager(StaticSingleton):
         commands = self.get_commands()
 
         for command in commands:
-            if command.name == name:
+            if command.text == name:
                 return command
         
         for command in commands:

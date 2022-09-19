@@ -7,8 +7,8 @@ class Building(GameObject):
 
         self.prototype = prototype
     
-    def get_name(self):
-        return self.prototype.get_name()
+    def get_title(self):
+        return self.prototype.get_title()
     
     def get_color(self):
         return self.prototype.get_color()

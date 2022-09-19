@@ -1,3 +1,5 @@
+from heapq import heapify, heappop, heappush
+import heapq
 from console.colored_string import ColoredString
 from objects.game_object import find_object
 from objects.node import Node
@@ -6,8 +8,8 @@ from settlers_of_valgard.colors import Colors
 from settlers_of_valgard.logger.logger import log, log_warning
 from settlers_of_valgard.logger.logging_level import Detailed, Everything, Limited, Normal
 from settlers_of_valgard.resource.bundle import Bundle
-from settlers_of_valgard.resource.food import EDIBLE
-from settlers_of_valgard.resource.resource import ResourceType
+from settlers_of_valgard.resource.food import EdibleNode
+from settlers_of_valgard.resource.resource import Resource, ResourcePrototype
 from settlers_of_valgard.settler.settler import CreatedSettlerEvent, Settler
 from settlers_of_valgard.processes.day import DaytimeEndEvent
 from settlers_of_valgard.settlement import Settlement
@@ -49,35 +51,32 @@ def tick_hunger(ev : DaytimeEndEvent):
     available_food = Bundle()
     fed_count = 0
 
-    for res, amt in settlement.stockpile.contents.items():
-        if res.has_tag(EDIBLE):
-            available_food.add(res, amt)
+    for res in settlement.stockpile.contents:
+        res : Resource
+        if res.has_child(EdibleNode):
+            available_food.add(res)
 
-    for node in Query(HungerNode).all():
-        node : HungerNode
-        fed = False
-        node.amount += 1
+    hungry_nodes = Query(HungerNode).filter(lambda node : node.amount > 0).all()
 
-        while node.status() <= Hungry:
-            resource : ResourceType = available_food.first()
+    queue = heapify([(node.amount * -1, node) for node in hungry_nodes]) # smallest is hungriest
 
-            if resource is not None:
-                available_food.remove(resource, 1)
-                settlement.stockpile.remove(resource, 1)
-                node.amount -= resource.tags[EDIBLE]
-                log(f'{node.parent} consumed {resource}', Everything)
-                fed = True
-            else:
-                log_warning(ColoredString([node.parent, ' could not find food!']), Detailed)
-                break
-        
-        if fed:
-            fed_count += 1
+    while len(available_food.contents) > 0 and len(queue) > 0:
+        hungriest : HungerNode = heappop(queue)
+        first_food : Resource = available_food.contents.first()
+        edible_node : EdibleNode = first_food.find_child(EdibleNode)
+
+        hungriest.amount -= edible_node.satiation
+        available_food.remove(first_food, 1)
+        settlement.stockpile.remove(first_food, 1)
+        fed_count += 1
+
+        if hungriest.amount > 0:
+            heappush(queue, hungriest)
     
     log(f'{fed_count} settlers were fed', Normal)
     
-    not_fed = Query(HungerNode).filter(lambda n : n.status() <= Hungry).count()
-    if not_fed > 0:
-        log_warning(f'{not_fed} settlers are hungry', Limited)
+    hungry_count = Query(HungerNode).filter(lambda n : n.status() <= Hungry).count()
+    if hungry_count > 0:
+        log_warning(f'{hungry_count} settlers are still hungry', Limited)
 
 DaytimeEndEvent.add_listener(tick_hunger)

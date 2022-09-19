@@ -19,10 +19,12 @@ def start():
 def main_loop():
     import console.command.basic_commands
     import settlers_of_valgard.settlers_of_valgard
+
+    return
     command_manager.scopes.append(IN_GAME)
 
     while engine_settings.is_running():
         player_input = input(f'Please enter a command{attr(5)}..{attr(0)}\n')
         command_manager.process_input(player_input)
         print() # newline
-start()
+start() 
